@@ -8,4 +8,4 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         chars = 'abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)'
         key = get_random_string(50, chars)
-        self.stdout.write('SECRET_KEY = "%s"' % key)
+        print 'SECRET_KEY = "%s"' % key
