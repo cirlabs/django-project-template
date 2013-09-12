@@ -30,7 +30,6 @@ Requirements
 
 * Django 1.5
 * [PostGIS](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#installation)
-* Fabric
 
 Getting started
 ---------------
