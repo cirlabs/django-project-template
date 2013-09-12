@@ -102,9 +102,9 @@ Copy the key. Open the settings file and drop it near the top. While you're ther
 $ vim project/settings.py
 ```
 
-Create a PostGIS database to connect with. This may vary depending on your PostGIS configuration. The command below assumes you have it running and want to make the database with a user named ``postgres``. Please modify it to suit your needs.
+Create a PostGIS database to connect with. This may vary depending on your PostGIS configuration. 
 
-If you don't have PostGIS installed, try following [the GeoDjango installation instructions](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#installation).
+The command below assumes you have it running and want to make the database with a user named ``postgres``. Please modify it to suit your needs. If you don't have PostGIS installed, try following [the GeoDjango installation instructions](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#installation).
 
 ```bash
 $ createdb -U postgres -E UTF8 -T template_postgis mydatabasename
