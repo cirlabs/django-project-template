@@ -38,7 +38,7 @@ Features
 Requirements
 ------------
 
-* Django
+* Django 1.5
 * PostGIS
 * Fabric
 
@@ -48,7 +48,7 @@ Getting started
 Create a virtual enviroment to work inside.
 
 ```bash
-$ virtualenv my-environment
+$ virtualenv --no-site-packages my-environment
 ```
 
 Jump in and turn it on.
