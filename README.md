@@ -58,7 +58,7 @@ $ cd my-environment
 $ . bin/activate
 ```
 
-Install Django
+Install Django.
 
 ```bash
 $ pip install django
