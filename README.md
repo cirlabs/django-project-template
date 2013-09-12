@@ -58,6 +58,12 @@ $ cd my-environment
 $ . bin/activate
 ```
 
+Install Django
+
+```bash
+$ pip install django
+```
+
 Create a new Git repository.
 
 ```bash
