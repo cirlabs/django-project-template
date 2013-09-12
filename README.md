@@ -72,7 +72,7 @@ Make a copy of the development settings template. Then open it and put in the cr
 
 ```bash
 $ cp project/settings_dev.template project/settings_dev.py
-$ vim settings_dev.py
+$ vim project/settings_dev.py
 ```
 
 Sync the database.
@@ -86,3 +86,5 @@ Fire up the test server.
 ```bash
 $ fab rs
 ```
+
+Get to work. Once you have something worth saving you can replace this README with a description of your new project.
