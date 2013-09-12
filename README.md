@@ -19,7 +19,7 @@
 
 A custom template for initializing a new Django project. 
 
-Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django templating system. Includes a number of small modifications favored the [Los Angeles Times Data Desk](http://datadesk.latimes.com).
+Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django templating system. Includes a number of small modifications favored the [Los Angeles Times Data Desk](http://datadesk.latimes.com). Assumes you already have a experience hacking around on Django.
 
 Features
 --------
