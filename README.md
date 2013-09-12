@@ -70,14 +70,14 @@ Download and install a project in there using this template.
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
 ```
 
-Then jump in and install the project's Python dependencies.
+Jump in and install the project's Python dependencies.
 
 ```bash
 $ cd repo
 $ pip install -r requirements.txt
 ```
 
-Then generate a secret key.
+Generate a secret key.
 
 ```bash
 $ fab generate_secret
