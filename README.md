@@ -76,7 +76,7 @@ Download and install a project in there using this template.
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
 ```
 
-If your DJANGO_SETTINGS_MODULE is already set you might get an error. If that happens, run the line below and try again.)
+If your ``DJANGO_SETTINGS_MODULE`` is already set you might get an error. If that happens, run the line below and try again.)
 
 ```bash
 $ export DJANGO_SETTINGS_MODULE=""
