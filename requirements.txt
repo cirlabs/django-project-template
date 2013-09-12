@@ -1,0 +1,7 @@
+Django==1.5
+South==0.8.1
+argparse==1.2.1
+boto==2.9.8
+django-debug-toolbar==0.9.4
+psycopg2==2.4.6
+python-memcached==1.48

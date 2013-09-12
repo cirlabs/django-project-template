@@ -1,0 +1,2 @@
+*.pyc
+{{ project_name }}/settings_dev.py
