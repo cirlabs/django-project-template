@@ -17,7 +17,7 @@
   \_/  \____\\_/  \|\_/   \____/\_/ \|  \_/  \____\
                                                    </code></pre>
 
-A custom template for initializing a new Django project that includes a number of small modifications favored the [Los Angeles Times Data Desk](http://datadesk.latimes.com).
+A custom template for initializing a new Django project. Includes a number of small modifications favored the [Los Angeles Times Data Desk](http://datadesk.latimes.com).
 
 Features
 --------
