@@ -17,7 +17,9 @@
   \_/  \____\\_/  \|\_/   \____/\_/ \|  \_/  \____\
                                                    </code></pre>
 
-A custom template for initializing a new Django project. Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django templating system. Includes a number of small modifications favored the [Los Angeles Times Data Desk](http://datadesk.latimes.com).
+A custom template for initializing a new Django project. 
+
+Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django templating system. Includes a number of small modifications favored the [Los Angeles Times Data Desk](http://datadesk.latimes.com).
 
 Features
 --------
@@ -42,6 +44,19 @@ Requirements
 
 Getting started
 ---------------
+
+Create a virtual enviroment to work inside.
+
+```bash
+$ virtualenv my-environment
+```
+
+Jump in and turn it on.
+
+```bash
+$ cd my-environment
+$ . bin/activate
+```
 
 Create a new Git repository.
 
