@@ -29,7 +29,7 @@ Features
 * Preconfiguration of GeoDjango for PostGIS
 * Preinstallation of South migrations
 * Preinstallation of django-debug-toolbar
-* A ``fabfile.py`` that includes a variety of Fabric functions
+* Fabric functions for local development and production deployment
 * Preinstallation of tools for interacting with Amazon Web Services
 * Preconfiguration of our preferred caching options
 
