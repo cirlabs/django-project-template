@@ -74,6 +74,9 @@ Download and install a project in there using this template.
 
 ```bash
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
+# (If your DJANGO_SETTINGS_MODULE is already set you might get an error. If that happens, run the line below and try again.)
+$ export DJANGO_SETTINGS_MODULE=""
+$ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
 ```
 
 Jump in and install the project's Python dependencies.
