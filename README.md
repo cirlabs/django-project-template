@@ -33,6 +33,13 @@ Features
 * Preinstallation of tools for interacting with Amazon Web Services
 * Preconfiguration of our preferred caching options
 
+Requirements
+------------
+
+* Django
+* PostGIS
+* Fabric
+
 Getting started
 ---------------
 
