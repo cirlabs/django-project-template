@@ -36,10 +36,15 @@ Features
 Getting started
 ---------------
 
-The first thing to do is download and install a project using this template in a new Git repository.
+Create a new Git repository.
 
 ```bash
 $ git init repo
+```
+
+Download and install a project in there using this template.
+
+```bash
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
 ```
 
@@ -68,10 +73,15 @@ Create a PostGIS database to connect with.
 $ createdb -U postgres -E UTF8 -T template_postgis mydatabasename
 ```
 
-Make a copy of the development settings template. Then open it and put in the credentials for the database you just made.
+Make a copy of the development settings template.
 
 ```bash
 $ cp project/settings_dev.template project/settings_dev.py
+```
+
+Open it and put in the credentials for the database you just made.
+
+```bash
 $ vim project/settings_dev.py
 ```
 
