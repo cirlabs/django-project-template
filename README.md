@@ -19,5 +19,5 @@ Getting started
 ---------------
 
 ```bash
-django-admin.py startproject --template=https://github.com/datadesk/django-project-template/archive/master.zip project
+$ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project
 ```
