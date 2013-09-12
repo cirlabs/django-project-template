@@ -83,7 +83,7 @@ $ export DJANGO_SETTINGS_MODULE=""
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
 ```
 
-Jump in and install the project's Python dependencies.
+Now that the template has landed, jump in and install the project's Python dependencies.
 
 ```bash
 $ cd repo
