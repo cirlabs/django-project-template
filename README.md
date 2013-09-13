@@ -14,17 +14,17 @@ Still experimental, so don't get your hopes up.
 Features
 --------
 
-* A split of ``settings.py`` that allows for different values in development versus production
-* Preinstallation of ``django.contrib.admin``
-* Preconfiguration of ``urls.py`` to serve static, media and Munin files
-* Preconfiguration of logging options
-* Preconfiguration of GeoDjango for PostGIS
-* Preinstallation of South migrations
-* Preinstallation of django-debug-toolbar
-* Fabric functions for local development and production deployment
-* Preinstallation of tools for interacting with Amazon Web Services
-* Preconfiguration of our preferred caching options
-* Chef cookbook with scripted production server configuration routines
+* A split of ``settings.py`` that allows for different values in [development](https://github.com/datadesk/django-project-template/blob/master/project_name/settings_dev.template) versus [production](https://github.com/datadesk/django-project-template/blob/master/project_name/settings_prod.py)
+* Preinstallation of Django's [automatic administration panel](https://docs.djangoproject.com/en/dev/ref/contrib/admin/)
+* Preconfiguration of [urls.py](https://github.com/datadesk/django-project-template/blob/master/project_name/urls.py) to serve static, media and Munin files
+* Preconfiguration of [logging options](https://github.com/datadesk/django-project-template/blob/master/project_name/settings.py#L104)
+* Preconfiguration of [GeoDjango](https://docs.djangoproject.com/en/dev/ref/contrib/gis/) for [PostGIS](http://postgis.net/)
+* Preinstallation of [South](http://south.readthedocs.org/en/latest/) migrations
+* Preinstallation of [django-debug-toolbar](https://github.com/django-debug-toolbar/django-debug-toolbar)
+* [Fabric functions](https://github.com/datadesk/django-project-template/blob/master/fabfile.py) for local development and production deployment
+* Preinstallation of [tools for interacting with Amazon Web Services](https://code.google.com/p/boto/)
+* Preconfiguration of our preferred caching options for [development](https://github.com/datadesk/django-project-template/blob/master/project_name/settings_dev.template#L14) and [production](https://github.com/datadesk/django-project-template/blob/master/project_name/settings_prod.py#L14)
+* [Chef cookbook](https://github.com/datadesk/django-project-template/tree/master/chef) with scripted production server configuration routines
 
 Requirements
 ------------
