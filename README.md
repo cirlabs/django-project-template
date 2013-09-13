@@ -24,6 +24,7 @@ Features
 * Fabric functions for local development and production deployment
 * Preinstallation of tools for interacting with Amazon Web Services
 * Preconfiguration of our preferred caching options
+* Chef cookbook with scripted production server configuration routines
 
 Requirements
 ------------
