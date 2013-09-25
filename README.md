@@ -11,6 +11,8 @@ Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#star
 
 Still experimental, so don't get your hopes up.
 
+[![Build Status](https://www.travis-ci.org/datadesk/django-project-template.png?branch=master)](https://www.travis-ci.org/datadesk/django-project-template)
+
 Features
 --------
 
