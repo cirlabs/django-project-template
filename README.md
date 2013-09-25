@@ -7,7 +7,7 @@
 
 A custom template for initializing a new Django project the Data Desk way. 
 
-Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django templating system. Includes a number of small modifications favored by the [Los Angeles Times Data Desk](http://datadesk.latimes.com). Assumes you already have a experience hacking around on Django and PostGIS.
+Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django ``startproject`` templating system. Includes a number of small modifications favored by the [Los Angeles Times Data Desk](http://datadesk.latimes.com). Assumes you already have experience hacking around on Django and PostGIS.
 
 Still experimental, so don't get your hopes up.
 
@@ -64,13 +64,6 @@ $ git init repo
 Download and install a project in there using this template.
 
 ```bash
-$ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
-```
-
-If your ``DJANGO_SETTINGS_MODULE`` is already set you might get an error. If that happens, run the line below and try again.)
-
-```bash
-$ export DJANGO_SETTINGS_MODULE=""
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
 ```
 

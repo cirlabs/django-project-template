@@ -1,7 +1,7 @@
 import os
 from django.core.exceptions import SuspiciousOperation
 
-SECRET_KEY = '' 
+SECRET_KEY = "DON'T USE THIS KEY! PLEASE RUN: `fab generate_secret`"
 EMAIL_HOST_USER = '' # Gmail username
 EMAIL_HOST_PASSWORD = '' # Gmail password
 ALLOWED_HOSTS = []
