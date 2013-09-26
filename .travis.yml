@@ -11,4 +11,4 @@ install:
 - cp project/settings_test.template project/settings_dev.py
 script: 
 - python manage.py test
-- python quicktest toolbox
+- python quicktest.py toolbox
