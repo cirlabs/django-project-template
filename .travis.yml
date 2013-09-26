@@ -9,4 +9,6 @@ install:
 - cd repo
 - pip install -r requirements.txt --use-mirrors
 - cp project/settings_test.template project/settings_dev.py
-script: python manage.py test
+script: 
+- python manage.py test
+- python manage.py quicktest toolbox
