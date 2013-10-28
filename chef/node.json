@@ -67,7 +67,7 @@
     "varnish_whitelist": [],
     "varnish_no_cache_urls": [],
     "varnish_ttl": "10m",
-    "varnish_health_url": "/"
+    "varnish_health_url": "/",
     
     "munin_name": "",
     "munin_db_user": "",
