@@ -66,6 +66,7 @@
     "apache_port": "8008",
     "varnish_whitelist": [],
     "varnish_ttl": "10m",
+    "varnish_health_url": "/"
     
     "munin_name": "",
     "munin_db_user": "",

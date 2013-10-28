@@ -13,7 +13,7 @@ backend apache {
     # Set a port. 80 is normal Web traffic.
     .port = "<%= @apache_port %>";
     .probe = {
-        .url = "/";
+        .url = "<%= @varnish_health_url %>";
         .interval = 3s;
         .window = 5;
         .threshold = 2;
