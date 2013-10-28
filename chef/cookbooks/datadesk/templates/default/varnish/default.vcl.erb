@@ -12,6 +12,12 @@ backend apache {
 
     # Set a port. 80 is normal Web traffic.
     .port = "<%= @apache_port %>";
+    .probe = {
+        .url = "/";
+        .interval = 3s;
+        .window = 5;
+        .threshold = 2;
+    }
 }
 /*
 *
@@ -52,27 +58,11 @@ sub vcl_recv {
     # Use the backend we set up above to answer the request if it's not cached.
     set req.backend = apache;
     
-    # Don't cache admin pages
-    if (req.url ~ "^/admin/") {
-        return (pass);
-    }
-    
-    # Don't cache admin pages
-    if (req.url ~ "^/review/") {
-        return (pass);
-    }
-    
-    # Don't cache munin pages
-    if (req.url ~ "^/munin/") {
-        return (pass);
-    }
-    
-    # Don't cache comments pages
-    if (req.url ~ "^/comments/") {
-        return (pass);
-    }
-    
-    if (req.url ~ "^/server-status") {
+    # Don't cache these pages
+    if (req.url ~ "^/admin/" ||
+        req.url ~ "^/munin/" ||
+        req.url ~ "^/server-status" ||
+        req.url ~ "^/comments/") {
         return (pass);
     }
 
@@ -96,11 +86,20 @@ sub vcl_recv {
     # to ask for it. Once the updated response is available for that first
     # client, all of the other clients will then get the updated response.
     #
-    # By setting grace to 5 minutes, we tell Varnish to continue to serve
-    # an outdated object for up to 5 minutes past its expiration to cover
-    # us while we fetch an updated response. Works great for slow pages.
+    # Because we are polling our server to check if it's healthy, in the event
+    # that the server goes down Grace mode will continue to serve cached content
+    # for the duration of req.grace
+    # 
+    # BE ADVISED: the req.grace setting tells Varnish how long it can serve
+    # stale content, NOT how long to store it. beresp.grace, below, tells Varnish
+    # how long to store content beyond the ttl. Effectively, Varnish stores content
+    # for beresp.grace + ttl
     
-    set req.grace = 5m;
+    if (req.backend.healthy) {
+        set req.grace = 1m;
+    } else {
+        set req.grace = 1h;
+    }
     
     # Pass the request along to lookup to see if it's in the cache.
     return(lookup);
@@ -134,6 +133,9 @@ sub vcl_hit {
 *
 */
 sub vcl_fetch {
+    # For grace mode. This is how long Varnish will keep objects in its cache
+    # after their TTL has expired.
+    set beresp.grace = 1h;
 
     # Get the response. Set the cache lifetime.
     set beresp.ttl = <%= @varnish_ttl %>;
