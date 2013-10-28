@@ -60,9 +60,11 @@ sub vcl_recv {
     
     # Don't cache these pages
     if (req.url ~ "^/admin/" ||
+        <% @varnish_no_cache_urls.each do |item| -%>
+        req.url ~ "<%= item %>" ||
+        <% end -%>
         req.url ~ "^/munin/" ||
-        req.url ~ "^/server-status" ||
-        req.url ~ "^/comments/") {
+        req.url ~ "^/server-status") {
         return (pass);
     }
 

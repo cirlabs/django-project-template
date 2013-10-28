@@ -65,6 +65,7 @@
     
     "apache_port": "8008",
     "varnish_whitelist": [],
+    "varnish_no_cache_urls": [],
     "varnish_ttl": "10m",
     "varnish_health_url": "/"
     

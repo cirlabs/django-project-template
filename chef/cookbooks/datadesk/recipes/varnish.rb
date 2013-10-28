@@ -17,7 +17,8 @@ template "/etc/varnish/default.vcl" do
      :apache_port => node[:apache_port],
      :varnish_whitelist => node[:varnish_whitelist],
      :varnish_ttl => node[:varnish_ttl],
-     :varnish_health_url => node[:varnish_health_url]
+     :varnish_health_url => node[:varnish_health_url],
+     :varnish_no_cache_urls => node[:varnish_no_cache_urls]
   })
 end
 
