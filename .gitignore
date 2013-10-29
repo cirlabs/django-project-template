@@ -1,4 +1,6 @@
 *.pyc
+django.log
+django.log*
 {{ project_name }}/settings_dev.py
 chef/cookbooks/palewire/files/default/id_rsa
 chef/cookbooks/palewire/files/default/id_rsa.pub
