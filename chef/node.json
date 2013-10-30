@@ -43,11 +43,7 @@
         "fabric"
     ],
     
-    "pip_python_packages": {
-        "requests": "1.2.3",
-        "boto": "2.9.6",
-        "BeautifulSoup": "3.2.1"
-    },
+    "pip_python_packages": {},
     
     "apps_user": "datadesk",
     "apps_password": "datadesk",
