@@ -70,7 +70,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     'django.core.context_processors.request',
-    'toolbox.context_processors.env.env',
+    'toolbox.context_processors.env.environment',
+    'toolbox.context_processors.sites.current_site',
 )
 
 # Web request stuff
