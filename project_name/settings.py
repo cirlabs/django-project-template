@@ -61,6 +61,16 @@ TEMPLATE_LOADERS = (
 TEMPLATE_DIRS = (
     os.path.join(ROOT_DIR, 'templates'),
 )
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.contrib.auth.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.static",
+    "django.core.context_processors.tz",
+    "django.contrib.messages.context_processors.messages",
+    'django.core.context_processors.request',
+)
 
 # Web request stuff
 MIDDLEWARE_CLASSES = (
@@ -74,8 +84,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = '{{ project_name }}.urls'
 WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
-
-
+# Installed apps
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
