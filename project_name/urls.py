@@ -1,9 +1,10 @@
 from django.conf import settings
+from django.contrib import admin
 from django.conf.urls import patterns, include, url
 from django.views.static import serve as static_serve
 from django.contrib.admin.views.decorators import staff_member_required
-from django.contrib import admin
 admin.autodiscover()
+
 
 urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
@@ -20,7 +21,6 @@ if settings.DEBUG:
             'show_indexes': True,
         }),
     )
-
 
 if settings.PRODUCTION:
     urlpatterns += patterns('',
