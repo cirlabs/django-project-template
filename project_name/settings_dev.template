@@ -18,4 +18,8 @@ CACHES = {
         #'BACKEND': 'django.core.cache.backends.db.DatabaseCache',
     }
 }
+TEMPLATE_LOADERS = (
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
+)
 STATIC_URL = '/static/'
