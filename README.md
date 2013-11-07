@@ -27,6 +27,7 @@ Features
 * Preinstallation of [tools for interacting with Amazon Web Services](https://code.google.com/p/boto/)
 * Preconfiguration of our preferred caching options for [development](https://github.com/datadesk/django-project-template/blob/master/project_name/settings_dev.template#L14) and [production](https://github.com/datadesk/django-project-template/blob/master/project_name/settings_prod.py#L14)
 * [Chef cookbook](https://github.com/datadesk/django-project-template/tree/master/chef) with scripted production server configuration routines
+* Custom context processors that provide the [current site](https://github.com/datadesk/django-project-template/blob/master/toolbox/context_processors/sites.py) and [environment](https://github.com/datadesk/django-project-template/blob/master/toolbox/context_processors/env.py).
 * A number of goofball utilities, like a [unicode CSV reader](https://github.com/datadesk/django-project-template/blob/master/toolbox/unicodecsv.py)
 
 Requirements
