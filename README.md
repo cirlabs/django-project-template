@@ -122,4 +122,4 @@ Fire up the test server.
 $ fab rs
 ```
 
-Get to work. Once you have something worth saving you can replace this README with a description of your new project.
+Get to work. Once you have something worth saving you can replace this README with a description of your new project. 
