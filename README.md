@@ -33,7 +33,7 @@ Features
 Requirements
 ------------
 
-* [Django 1.5](https://www.djangoproject.com/download/)
+* [Django 1.6](https://www.djangoproject.com/download/)
 * [PostGIS](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#installation)
 * [virtualenv](http://www.virtualenv.org/en/latest/)
 
