@@ -19,7 +19,7 @@ DATABASES = {
 }
 
 # Static
-STATIC_URL = 'http://media.apps.cironline.org/{{ YOUR_APP_NAME }}/site_media/'
+STATIC_URL = 'http://media.apps.cironline.org/YOUR_APP_NAME/site_media/'
 
 # GEOS paths for GeoDjango and GDAL. Configured for our particular Heroku setup.
 GEOS_LIBRARY_PATH = '/app/.geodjango/geos/lib/libgeos_c.so'
