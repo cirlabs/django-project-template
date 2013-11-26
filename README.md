@@ -1,11 +1,7 @@
-<pre><code>     _  _                                    _        _     _                  _      _       
-  __| |(_)__ _ _ _  __ _ ___   _ __ _ _ ___ (_)___ __| |_  | |_ ___ _ __  _ __| |__ _| |_ ___ 
- / _` || / _` | ' \/ _` / _ \ | '_ \ '_/ _ \| / -_) _|  _| |  _/ -_) '  \| '_ \ / _` |  _/ -_)
- \__,_|/ \__,_|_||_\__, \___/ | .__/_| \___// \___\__|\__|  \__\___|_|_|_| .__/_\__,_|\__\___|
-     |__/          |___/      |_|         |__/                           |_|                  
-</code></pre>
+# CIR DJANGO PROJECT TEMPLATE
+## :construction:
 
-A custom template for initializing a new Django project the Data Desk way. 
+A custom template for initializing a new Django project the ~~Data Desk~~ CIR way. 
 
 Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django ``startproject`` templating system. Includes a number of small modifications favored by the [Los Angeles Times Data Desk](http://datadesk.latimes.com). Assumes you already have experience hacking around on Django and PostGIS.
 
@@ -36,6 +32,7 @@ Requirements
 * [Django 1.6](https://www.djangoproject.com/download/)
 * [PostGIS](https://docs.djangoproject.com/en/dev/ref/contrib/gis/install/#installation)
 * [virtualenv](http://www.virtualenv.org/en/latest/)
+* [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/)
 
 Getting started
 ---------------
@@ -43,14 +40,7 @@ Getting started
 Create a virtual enviroment to work inside.
 
 ```bash
-$ virtualenv --no-site-packages my-environment
-```
-
-Jump in and turn it on.
-
-```bash
-$ cd my-environment
-$ . bin/activate
+$ mkvirtualenv project-name
 ```
 
 Install Django.
@@ -62,13 +52,13 @@ $ pip install django
 Create a new Git repository.
 
 ```bash
-$ git init repo
+$ git init project-name
 ```
 
 Download and install a project in there using this template.
 
 ```bash
-$ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
+$ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/cirlabs/django-project-template/archive/master.zip app-name project-name
 ```
 
 Now that the template has landed, jump in and install the project's Python dependencies.
@@ -77,6 +67,8 @@ Now that the template has landed, jump in and install the project's Python depen
 $ cd repo
 $ pip install -r requirements.txt
 ```
+
+## :warning: EVERYTHING BELOW IS FROM OG REPO 
 
 Generate a secret key.
 
