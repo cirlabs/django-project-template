@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-
+SITE_ROOT = os.path.dirname(os.path.dirname(os.path.realpath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/{{ docs_version }}/howto/deployment/checklist/
@@ -30,12 +30,18 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # Django Apps
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    #External Apps
+    'south',
+
+    # Project Apps
 )
 
 MIDDLEWARE_CLASSES = (
@@ -60,6 +66,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
+    #'default': {
+    #    'ENGINE': 'django.contrib.gis.db.backends.postgis',
+    #    'NAME': '',
+    #    'USER': '',
+    #    'PASSWORD': '',
+    #    'HOST': '', # localhost or 127.0.0.1
+    #    'PORT': '5432',
+    #}
 }
 
 # Internationalization
@@ -80,3 +94,18 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
 
 STATIC_URL = '/static/'
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # File directories that you want to be collected into STATIC_ROOT using Django's
+    # staticfiles toolkit. A good thing to put here would be the admin media directory.
+    os.path.join(SITE_ROOT, 'assets'),
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+#    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+)
