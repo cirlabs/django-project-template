@@ -1,4 +1,4 @@
-# :construction: CIR DJANGO PROJECT TEMPLATE *(WIP)*
+# :construction: CIR DJANGO PROJECT TEMPLATE
 
 A custom template for initializing a new Django project the ~~Data Desk~~ CIR way. 
 
