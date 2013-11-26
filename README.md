@@ -2,11 +2,9 @@
 
 A custom template for initializing a new Django project the ~~Data Desk~~ CIR way. 
 
-Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django ``startproject`` templating system. Includes a number of small modifications favored by the [Los Angeles Times Data Desk](http://datadesk.latimes.com). Assumes you already have experience hacking around on Django and PostGIS.
+Uses the [built-in](https://docs.djangoproject.com/en/1.5/ref/django-admin/#startproject-projectname-destination) Django ``startproject`` templating system. Includes a number of small modifications favored by the [Los Angeles Times Data Desk](http://datadesk.latimes.com) and adapted for the [Center for Investigative Reporting](http://github.com/cirlabs). Assumes you already have experience hacking around on Django and PostGIS.
 
 Still experimental, so don't get your hopes up.
-
-[![Build Status](https://www.travis-ci.org/datadesk/django-project-template.png?branch=master)](https://www.travis-ci.org/datadesk/django-project-template)
 
 Features
 --------
