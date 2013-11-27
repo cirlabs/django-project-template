@@ -12,6 +12,9 @@ pwd = os.path.dirname(__file__)
 sys.path.append(pwd)
 
 def setup():
+  """
+  Fetch required dependencies and setup the front-end
+  """
   print ("Do you need to install the project's node.js dependencies (Yo, Bower, Grunt)? <'y' or 'n'>")
   while True:
     answer = raw_input("> ")
@@ -30,6 +33,9 @@ def setup():
   yo()
 
 def get_node_libs():
+  """
+  Install Node.js for Mac OS X or Ubuntu Linux
+  """
   print ("Are you running this on Mac OS X or Ubuntu Linux? <Answer 'Mac' or 'Linux'>")
   platform = raw_input("> ")
   if (platform.upper() == 'MAC'):
@@ -43,6 +49,9 @@ def get_node_libs():
     get_node_libs()
 
 def yo():
+  """
+  Run yeoman generator to scaffold front-end dependencies
+  """
   local('cd {{ project_name }} && yo newsapp')
 
 def install_node():
@@ -78,14 +87,26 @@ def install_node():
     install_node()
 
 def rs():
+  """
+  Start development server
+  """
   local("python manage.py runserver")
 
-def create_database():
-    """
-    Creates the user and database for this project.
-    """
-    #local('echo "CREATE USER {{ project_name }} WITH PASSWORD \'{{ secret_key }}\'" | psql postgres')
-    local('echo "CREATE USER {{ project_name }}" | psql postgres')
-    local('createdb -O {{ project_name }} {{ project_name }}')
-    local('echo "CREATE EXTENSION postgis;" | psql {{ project_name }}')
-    local('psql -c "ALTER TABLE public.spatial_ref_sys OWNER TO {{ project_name }}" {{ project_name }}')
+def startapp(appname=''):
+  """
+  Create django app
+  """
+  local("python manage.py startapp %s" % appname)
+
+def createdb():
+  """
+  Creates local database for project
+  """
+  local('createdb {{ project_name }}')
+  local('echo "CREATE EXTENSION postgis;" | psql {{ project_name }}')
+
+def dropdb():
+  """
+  drops local database for project
+  """
+  local('echo "DROP DATABASE {{ project_name }};" | psql postgres')
