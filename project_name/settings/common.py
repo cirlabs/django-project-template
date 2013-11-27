@@ -34,13 +34,17 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
-    # Django Apps
-    'django.contrib.admin',
+    # Django apps
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.gis',
+    'django.contrib.humanize',
     'django.contrib.staticfiles',
+    'django.contrib.admin',
+    'django.contrib.admindocs',
 
     #External Apps
     'south',
@@ -67,17 +71,13 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': '{{ project_name }}',
+        'USER': '{{ project_name }}',
+        'PASSWORD': '',
+        'HOST': '', # localhost or 127.0.0.1
+        'PORT': '5432',
     }
-    #'default': {
-    #    'ENGINE': 'django.contrib.gis.db.backends.postgis',
-    #    'NAME': '',
-    #    'USER': '',
-    #    'PASSWORD': '',
-    #    'HOST': '', # localhost or 127.0.0.1
-    #    'PORT': '5432',
-    #}
 }
 
 # Internationalization

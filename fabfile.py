@@ -72,7 +72,6 @@ def install_node():
     sudo("add-apt-repository -y ppa:chris-lea/node.js")
     sudo("apt-get update")
     sudo("apt-get install nodejs")
-    break
 
   else:
     print("You didn't answer Mac or Linux")
@@ -80,3 +79,13 @@ def install_node():
 
 def rs():
   local("python manage.py runserver")
+
+def create_database():
+    """
+    Creates the user and database for this project.
+    """
+    #local('echo "CREATE USER {{ project_name }} WITH PASSWORD \'{{ secret_key }}\'" | psql postgres')
+    local('echo "CREATE USER {{ project_name }}" | psql postgres')
+    local('createdb -O {{ project_name }} {{ project_name }}')
+    local('echo "CREATE EXTENSION postgis;" | psql {{ project_name }}')
+    local('psql -c "ALTER TABLE public.spatial_ref_sys OWNER TO {{ project_name }}" {{ project_name }}')
