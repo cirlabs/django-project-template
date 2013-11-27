@@ -48,3 +48,30 @@ $ cd project
 $ pip install -r requirements.txt
 ``` 
 
+## Frontend Setup
+
+:warning: **Make sure you have Node.js installed. If you don't, run** `fab install_node`
+
+If Node.js is installed run:
+
+```bash
+$ fab setup
+```
+
+You'll be asked if you need to installed the node.js libraries used in this app. If you answer know, the installation will be skipped and the front-end generator will run.
+
+See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp) to learn how the generator works.
+
+## Check your work
+
+Phew! Finally, fire up the server to view your setup:
+
+```bash
+$ fab rs
+```
+
+Now, get coding you! Remove this `README` file and add your own.
+
+### Credits
+
+This project was inspired by the [@datadesk django-project-template](https://github.com/datadesk/django-project-template) 

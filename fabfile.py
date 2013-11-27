@@ -12,12 +12,12 @@ pwd = os.path.dirname(__file__)
 sys.path.append(pwd)
 
 def setup():
-  print ("Need to install the node dependencies? <'y' or 'n'>")
+  print ("Do you need to install the project's node.js dependencies (Yo, Bower, Grunt)? <'y' or 'n'>")
   while True:
     answer = raw_input("> ")
 
     if (answer.upper() == 'Y'):
-      install_node_dependencies()
+      get_node_libs()
       break
 
     elif (answer.upper() == 'N'):
@@ -27,9 +27,9 @@ def setup():
     else:
       print ("Error: you did not answer 'y' or 'n'")
 
-  run_yeoman_scaffold()
+  yo()
 
-def install_node_dependencies():
+def get_node_libs():
   print ("Are you running this on Mac OS X or Ubuntu Linux? <Answer 'Mac' or 'Linux'>")
   platform = raw_input("> ")
   if (platform.upper() == 'MAC'):
@@ -40,10 +40,43 @@ def install_node_dependencies():
     #sudo('npm install -g git@github.com:cirlabs/generator-newsapp.git')
   else:
     print ("Error: you did not answer 'Mac' or 'Linux'")
-    install_node_dependencies()
+    get_node_libs()
 
-def run_yeoman_scaffold():
+def yo():
   local('cd {{ project_name }} && yo newsapp')
 
+def install_node():
+  print ("Installing Node, eh? Mac or Linux? <answer 'Mac' or 'Linux'>")
+
+  answer = raw_input("> ")
+  if (answer.upper() == 'MAC'):
+    print ("Installing Node with Homebrew. Is Homebrew installed?")
+    while True:
+      answer = raw_input("> ")
+      if (answer.upper() == 'Y'):
+
+        local("brew install node")
+        break
+
+      elif (answer.upper() == 'N'):
+        local('ruby -e "$(curl -fsSL https://raw.github.com/mxcl/homebrew/go/install)"')
+        local("brew install node")
+        break
+
+      else:
+        print ("You did not answer 'Y' or 'N'.")
+
+  elif (answer.upper() == 'LINUX'):
+    sudo("apt-get update")
+    sudo("apt-get install -y python-software-properties python g++ make")
+    sudo("add-apt-repository -y ppa:chris-lea/node.js")
+    sudo("apt-get update")
+    sudo("apt-get install nodejs")
+    break
+
+  else:
+    print("You didn't answer Mac or Linux")
+    install_node()
+
 def rs():
-  local('python manage.py runserver')
+  local("python manage.py runserver")
