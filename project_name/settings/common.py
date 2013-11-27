@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.gis',
     'django.contrib.humanize',
@@ -47,7 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
 
     #External Apps
-    'south',
+    # 'south',
 
     # Project Apps
 )

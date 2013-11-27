@@ -97,6 +97,8 @@ def startapp(appname=''):
   Create django app
   """
   local("python manage.py startapp %s" % appname)
+  local("mv %s {{ project_name }}/apps/" % appname)
+  print("Add '{{ project_name }}.apps.%s' to INSTALLED_APPS in settings/common.py" % appname)
 
 def createdb():
   """
