@@ -11,7 +11,7 @@ from boto.ec2.connection import EC2Connection
 pwd = os.path.dirname(__file__)
 sys.path.append(pwd)
 
-def bootstrap():
+def setup():
   print ("Need to install the node dependencies? <'y' or 'n'>")
   while True:
     answer = raw_input("> ")
@@ -23,7 +23,7 @@ def bootstrap():
     elif (answer.upper() == 'N'):
       print ("Skipping dependency install")
       break
-      
+
     else:
       print ("Error: you did not answer 'y' or 'n'")
 
