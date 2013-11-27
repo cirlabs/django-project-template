@@ -36,8 +36,8 @@ def install_node_dependencies():
     local('npm install -g yo grunt-cli bower')
     #local('npm install -g git@github.com:cirlabs/generator-newsapp.git')
   elif (platform.upper() == 'LINUX'):
-    local('sudo npm install -g yo grunt-cli bower')
-    #local('sudo npm install -g git@github.com:cirlabs/generator-newsapp.git')
+    sudo('npm install -g yo grunt-cli bower')
+    #sudo('npm install -g git@github.com:cirlabs/generator-newsapp.git')
   else:
     print ("Error: you did not answer 'Mac' or 'Linux'")
     install_node_dependencies()
