@@ -32,20 +32,15 @@ def setup():
 def install_node_dependencies():
   print ("Are you running this on Mac OS X or Ubuntu Linux? <Answer 'Mac' or 'Linux'>")
   platform = raw_input("> ")
-  while True: 
-    if (platform.upper() == 'MAC'):
-      local('npm install -g yo grunt-cli bower')
-      #local('npm install -g git@github.com:cirlabs/generator-newsapp.git')
-      break
-
-    elif (platform.upper() == 'LINUX'):
-      local('sudo npm install -g yo grunt-cli bower')
-      #local('sudo npm install -g git@github.com:cirlabs/generator-newsapp.git')
-
-      break
-
-    else:
-      print ("Error: you did not answer 'Mac' or 'Linux'")
+  if (platform.upper() == 'MAC'):
+    local('npm install -g yo grunt-cli bower')
+    #local('npm install -g git@github.com:cirlabs/generator-newsapp.git')
+  elif (platform.upper() == 'LINUX'):
+    local('sudo npm install -g yo grunt-cli bower')
+    #local('sudo npm install -g git@github.com:cirlabs/generator-newsapp.git')
+  else:
+    print ("Error: you did not answer 'Mac' or 'Linux'")
+    install_node_dependencies()
 
 def run_yeoman_scaffold():
   local('cd {{ project_name }} && yo newsapp')
