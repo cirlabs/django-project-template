@@ -4,11 +4,8 @@ python:
 - '2.7'
 install:
 - pip install django
-- mkdir repo
-- django-admin.py startproject --extension=py,.gitignore --template=https://github.com/datadesk/django-project-template/archive/master.zip project repo
+- django-admin.py startproject --extension=py,.gitignore --template=https://github.com/cirlabs/django-project-template/archive/master.zip project
 - cd repo
 - pip install -r requirements.txt --use-mirrors
-- cp project/settings_test.template project/settings_dev.py
 script: 
 - python manage.py test
-- python quicktest.py toolbox
