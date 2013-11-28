@@ -31,6 +31,7 @@ def setup():
       print ("Error: you did not answer 'y' or 'n'")
 
   yo()
+  createdb()
 
 def get_node_libs():
   """
@@ -55,6 +56,9 @@ def yo():
   local('cd {{ project_name }} && yo newsapp')
 
 def install_node():
+  """
+  Install node.js for Mac OS X or Ubuntu Linux
+  """
   print ("Installing Node, eh? Mac or Linux? <answer 'Mac' or 'Linux'>")
 
   answer = raw_input("> ")
@@ -112,3 +116,22 @@ def dropdb():
   drops local database for project
   """
   local('echo "DROP DATABASE {{ project_name }};" | psql postgres')
+
+def destroy():
+  """
+  destoys the database and django project. Be careful!
+  """
+  print("You are about to mothball this entire project. Sure you want to do that? <enter 'Y' or 'N'>")
+  while True:
+    answer = raw_input("> ")
+    if (answer.upper() == 'Y'):
+      dropdb()
+      local('cd .. && rm -rf {{ project_name }}')
+      break
+
+    elif (answer.upper() == 'N'):
+      print("cancelling destory")
+      break
+
+    else:
+      print("You didn't answer 'Y' or 'N'")
