@@ -8,8 +8,26 @@ from fabric.api import *
 from os.path import expanduser
 from boto.ec2.connection import EC2Connection
 
+# vars
 pwd = os.path.dirname(__file__)
+project_name = "{{ project_name }}"
+gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
+site_media_prefix = "site_media"
+production_domain = 'apps.cironline.org' # prompt to define this
+s3_bucket = 'media.{0}'.format(production_domain)
+
+
 sys.path.append(pwd)
+
+# Environment
+
+def production():
+  """
+  Work on production environment
+  """
+  env.settings = 'production'
+
+# Setup and install
 
 def setup():
   """
@@ -53,7 +71,7 @@ def yo():
   """
   Run yeoman generator to scaffold front-end dependencies
   """
-  local('cd {{ project_name }} && yo newsapp')
+  local('cd {0} && yo newsapp'.format(project_name))
 
 def install_node():
   """
@@ -96,26 +114,26 @@ def rs():
   """
   local("python manage.py runserver")
 
-def startapp(appname=''):
+def startapp(app_name=''):
   """
   Create django app
   """
-  local("python manage.py startapp %s" % appname)
-  local("mv %s {{ project_name }}/apps/" % appname)
-  print("Add '{{ project_name }}.apps.%s' to INSTALLED_APPS in settings/common.py" % appname)
+  local("python manage.py startapp {0}".format(app_name))
+  local("mv {0} {1}/apps/".format(app_name, project_name))
+  print("Add '{0}.apps.{1}' to INSTALLED_APPS in settings/common.py".format(project_name, app_name))
 
 def createdb():
   """
   Creates local database for project
   """
-  local('createdb {{ project_name }}')
-  local('echo "CREATE EXTENSION postgis;" | psql {{ project_name }}')
+  local('createdb {0}'.format(project_name))
+  local('echo "CREATE EXTENSION postgis;" | psql {0}'.format(project_name))
 
 def dropdb():
   """
   drops local database for project
   """
-  local('echo "DROP DATABASE {{ project_name }};" | psql postgres')
+  local('echo "DROP DATABASE {0};" | psql postgres'.format(project_name))
 
 def destroy():
   """
@@ -126,7 +144,7 @@ def destroy():
     answer = raw_input("> ")
     if (answer.upper() == 'Y'):
       dropdb()
-      local('cd .. && rm -rf {{ project_name }}')
+      local('cd .. && rm -rf {0}'.format(project_name))
       break
 
     elif (answer.upper() == 'N'):
@@ -135,3 +153,23 @@ def destroy():
 
     else:
       print("You didn't answer 'Y' or 'N'")
+
+# Static media
+# This should all run after a grunt task runs to collect the deps used
+def gzip_assets():
+    """
+    GZips every file in the assets directory and places the new file
+    in the gzip directory with the same filename.
+    """
+    local("cd {0}; python ./gzip_assets.py".format(pwd))
+
+def deploy_to_s3():
+    """
+    Deploy the latest project site media to S3.
+    """
+    local('s3cmd -P --add-header=Content-encoding:gzip --guess-mime-type --rexclude-from={0}/s3exclude sync {1} s3://{2}/{3}/{4}/'.format(localpath, gzip_path, s3_bucket, project_name, site_media_prefix))
+
+def deploy_static():
+    local("python ./{0}/manage.py collectstatic".format(project_name))
+    gzip_assets()
+    deploy_to_s3()
