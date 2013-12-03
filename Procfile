@@ -1,0 +1,1 @@
+web: gunicorn_django -b 0.0.0.0:\$PORT -w 10 --preload {{ project_name }}/settings/production.py
