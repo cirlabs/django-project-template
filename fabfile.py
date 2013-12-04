@@ -118,8 +118,7 @@ def grunt():
   """
   Run grunt tasks installed from Yeoman generator
   """
-  local('cd {{ project_name }}')
-  local('grunt')
+  local('cd {{ project_name }} && grunt')
 
 def startapp(app_name=''):
   """
