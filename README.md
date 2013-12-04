@@ -64,10 +64,16 @@ See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp) to 
 
 ## Check your work
 
-Phew! Finally, fire up the server to view your setup:
+Fire up the server:
 
 ```bash
 $ fab rs
+```
+
+In a new termial window, enable grunt tasks
+
+```bash
+$ fab grunt
 ```
 
 Now, get coding you! Remove this `README` file and add your own.

@@ -114,6 +114,13 @@ def rs():
   """
   local("python manage.py runserver")
 
+def grunt():
+  """
+  Run grunt tasks installed from Yeoman generator
+  """
+  local('cd {{ project_name }}')
+  local('grunt')
+
 def startapp(app_name=''):
   """
   Create django app
