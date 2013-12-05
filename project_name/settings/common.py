@@ -49,7 +49,7 @@ INSTALLED_APPS = (
     # 'south',
 
     # Project Apps
-    '{{ project_name }}.apps.base',
+    '{{ project_name }}.apps.core',
 )
 
 MIDDLEWARE_CLASSES = (
