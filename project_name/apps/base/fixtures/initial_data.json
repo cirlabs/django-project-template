@@ -1,0 +1,5 @@
+[
+  {"pk": 1, "model": "related_content.relatedtype", "fields": {"title": "lead_art"}}, 
+  {"pk": 2, "model": "related_content.relatedtype", "fields": {"title": "related_content"}},
+  {"pk": 4, "model": "related_content.relatedtype", "fields": {"title": "embedded"}}
+]
