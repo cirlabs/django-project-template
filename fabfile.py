@@ -110,9 +110,9 @@ def install_node():
 
 def rs():
   """
-  Start development server
+  Start development server and grunt tasks
   """
-  local("python manage.py runserver")
+  local("python manage.py rserver")
 
 def grunt():
   """

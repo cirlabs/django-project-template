@@ -17,9 +17,9 @@ Part of CIRs three-part deploy:
 
 If you want to scaffold the front-end, you'll also need:
 
-- [Node.js 0.10.x](http://nodejs.org/)
+- [Node.js 0.8.x](http://nodejs.org/)
 - [npm](http://npmjs.org/) (usually installed with Node)
-- [Grunt.js](http://gruntjs.com/getting-started)
+- [Grunt.js](http://gruntjs.com)
 - [Bower](http://bower.io/)
 - [Yeoman](http://yeoman.io/index.html)
 
@@ -64,16 +64,10 @@ See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp) to 
 
 ## Check your work
 
-Fire up the server:
+Fire up the server and run grunt tasks:
 
 ```bash
 $ fab rs
-```
-
-In a new termial window, enable grunt tasks
-
-```bash
-$ fab grunt
 ```
 
 Now, get coding you! Remove this `README` file and add your own.
