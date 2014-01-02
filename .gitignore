@@ -3,4 +3,6 @@ django.log
 django.log*
 bower_components
 node_modules
+
+# ignore the css file
 assets/styles/*.css
