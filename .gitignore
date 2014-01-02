@@ -3,3 +3,4 @@ django.log
 django.log*
 bower_components
 node_modules
+assets/styles/*.css
