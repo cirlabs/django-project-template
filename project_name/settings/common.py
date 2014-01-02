@@ -47,6 +47,7 @@ INSTALLED_APPS = (
 
     #External Apps
     # 'south',
+    'compressor',
 
     # Project Apps
     '{{ project_name }}.apps.core',
