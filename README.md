@@ -88,7 +88,7 @@ $ fab rs
     setup          Fetch required dependencies and setup the front-end
     startapp       Create django app
     yo             Run yeoman generator to scaffold front-end dependencies
-``
+```
 
 Now, get coding you! Remove this `README` file and add your own.
 
