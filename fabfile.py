@@ -61,7 +61,7 @@ def get_node_libs():
     local('npm install -g yo grunt-cli bower')
     #local('npm install -g git@github.com:cirlabs/generator-newsapp.git')
   elif (platform.upper() == 'LINUX'):
-    sudo('npm install -g yo grunt-cli bower')
+    sudo('npm install -g yo grunt-cli bower generator-newsapp')
     #sudo('npm install -g git@github.com:cirlabs/generator-newsapp.git')
   else:
     print ("Error: you did not answer 'Mac' or 'Linux'")
