@@ -126,7 +126,7 @@ def startapp(app_name=''):
   """
   local("python manage.py startapp {0}".format(app_name))
   local("mv {0} {1}/apps/".format(app_name, project_name))
-  print("Add '{0}.apps.{1}' to INSTALLED_APPS in settings/common.py".format(project_name, app_name))
+  print("\nHEADS UP! Make sure you add '{0}.apps.{1}' to INSTALLED_APPS in settings/common.py\n".format(project_name, app_name))
 
 def createdb():
   """
