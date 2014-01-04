@@ -58,11 +58,9 @@ def get_node_libs():
   print ("Are you running this on Mac OS X or Ubuntu Linux? <Answer 'Mac' or 'Linux'>")
   platform = raw_input("> ")
   if (platform.upper() == 'MAC'):
-    local('npm install -g yo grunt-cli bower')
-    #local('npm install -g git@github.com:cirlabs/generator-newsapp.git')
+    local('npm install -g yo grunt-cli bower generator-newsapp')
   elif (platform.upper() == 'LINUX'):
-    sudo('npm install -g yo grunt-cli bower generator-newsapp')
-    #sudo('npm install -g git@github.com:cirlabs/generator-newsapp.git')
+    local('sudo npm install -g yo grunt-cli bower generator-newsapp')
   else:
     print ("Error: you did not answer 'Mac' or 'Linux'")
     get_node_libs()
@@ -98,11 +96,11 @@ def install_node():
         print ("You did not answer 'Y' or 'N'.")
 
   elif (answer.upper() == 'LINUX'):
-    sudo("apt-get update")
-    sudo("apt-get install -y python-software-properties python g++ make")
-    sudo("add-apt-repository -y ppa:chris-lea/node.js")
-    sudo("apt-get update")
-    sudo("apt-get install nodejs")
+    local("sudo apt-get update")
+    local("sudo apt-get install -y python-software-properties python g++ make")
+    local("sudo add-apt-repository -y ppa:chris-lea/node.js")
+    local("sudo apt-get update")
+    local("sudo apt-get install nodejs")
 
   else:
     print("You didn't answer Mac or Linux")
