@@ -90,6 +90,9 @@ $ fab rs
     yo             Run yeoman generator to scaffold front-end dependencies
 ```
 
+## Override settings
+If you'd like to override the settings in common.py, just create a `local_settings.py` file in `settings/`. `common.py` will import it at the bottom. 
+
 Now, get coding you! Remove this `README` file and add your own.
 
 ### Credits

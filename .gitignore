@@ -4,6 +4,9 @@ django.log*
 bower_components
 node_modules
 .DS_Store
+data/
+# local settings
+*/settings/local_settings.py
 
 # ignore the css file
-assets/styles/*.css
+*/assets/styles/*.css
