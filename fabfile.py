@@ -16,8 +16,6 @@ site_media_prefix = "site_media"
 production_domain = 'apps.cironline.org' # prompt to define this
 s3_bucket = 'media.{0}'.format(production_domain)
 
-# Set environment
-env.hosts = [ 'localhost', '127.0.0.1']
 
 sys.path.append(pwd)
 
