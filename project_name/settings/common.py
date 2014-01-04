@@ -118,3 +118,9 @@ STATICFILES_FINDERS = (
     # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
     'compressor.finders.CompressorFinder',
 )
+
+# Check for local settings
+try:
+    from local_settings import *
+except ImportError:
+    pass
