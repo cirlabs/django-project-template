@@ -93,6 +93,29 @@ $ fab rs
 ## Override settings
 If you'd like to override the settings in common.py, just create a `local_settings.py` file in `settings/`. `common.py` will import it at the bottom. 
 
+## Deployment
+We typically deploy the app slug to Heroku and the DB to some DB host (AWS, Rackspace, etc.)
+
+### Procfile
+For Heroku, the `Procfile` needs to change to the name of the project. Swap out `project_name` from `web: gunicorn project_name.wsgi` with the name of the project. Read more about Django deploys on Heroku here: [Getting Started with Django on Heroku](https://devcenter.heroku.com/articles/getting-started-with-django)
+
+### Production Database
+The `settings/prod.py` file contains all the production-specific variable and settings needed. Configure all your fun there. There's some Heroku-specific stuff in there too if you plan on hosting the database on Heroku as well.
+
+### GeoDjango buildpack
+If you're creating a GeoDjango application on Heroku, you're going to need geo spatial libraries like GDAL and PostGIS. Luckily, CIR is here to help.
+
+1. In the project root, create a `.buildpack` file. This tells Heroku that you want to a use a custom buildpack. Buildpacks let you install other necessary libraries and dependecies that your project may need.
+
+2. When creating the Heroku application with the Heroku toolbelt, specific CIR's GeoDjango buildpack. This will ensure the required geo spatial libraries are on your Heroku instance
+
+```bash
+$ heroku create --stack cedar --buildpack http://github.com/cirlabs/heroku-buildpack-geodjango/
+```
+
+Read more about our GeoDjango buildpack here: [cirlabs/heroku-buildpack-geodjango](https://github.com/cirlabs/heroku-buildpack-geodjango)
+
+
 Now, get coding you! Remove this `README` file and add your own.
 
 ### Credits
