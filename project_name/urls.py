@@ -9,6 +9,6 @@ urlpatterns = patterns('',
     (r'^admin/', admin.site.urls),
 
     # Project URLs go here
-    (r'^$', TemplateView.as_view(template_name='index.html')),
+    url(r'^$', TemplateView.as_view(template_name='index.html'), name='index'),
 
 )
