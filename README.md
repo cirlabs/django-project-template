@@ -107,7 +107,7 @@ If you're creating a GeoDjango application on Heroku, you're going to need geo s
 
 1. In the project root, create a `.buildpack` file. This tells Heroku that you want to a use a custom buildpack. Buildpacks let you install other necessary libraries and dependecies that your project may need.
 
-2. When creating the Heroku application with the Heroku toolbelt, specific CIR's GeoDjango buildpack. This will ensure the required geo spatial libraries are on your Heroku instance
+2. When creating the Heroku application with the Heroku toolbelt, specify CIR's GeoDjango buildpack. This will ensure the required geo spatial libraries are on your Heroku instance
 
 ```bash
 $ heroku create --stack cedar --buildpack http://github.com/cirlabs/heroku-buildpack-geodjango/
