@@ -58,7 +58,7 @@ If Node.js is installed run:
 $ fab setup
 ```
 
-You'll be asked if you need to installed the node.js libraries used in this app. If you answer know, the installation will be skipped and the front-end generator will run.
+You'll be asked if you need to installed the node.js libraries used in this app. If you answer **no**, the installation will be skipped and the front-end generator will run.
 
 See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp) to learn how the generator works.
 
