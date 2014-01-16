@@ -84,6 +84,14 @@ DATABASES = {
     }
 }
 
+import sys
+if 'test' in sys.argv:
+    # Test-specific DB
+    DATABASES['default'] = {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'test.db'
+    }
+
 # Internationalization
 # https://docs.djangoproject.com/en/{{ docs_version }}/topics/i18n/
 
