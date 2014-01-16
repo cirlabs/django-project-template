@@ -1,4 +1,4 @@
-# Django Project Template
+# Django Project Template [![Build Status](https://secure.travis-ci.org/cirlabs/django-project-template.png?branch=master)](http://travis-ci.org/cirlabs/django-project-template)
 
 No longer a fork, but a state of mind :thumbsup:
 
