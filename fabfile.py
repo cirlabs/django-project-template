@@ -106,11 +106,11 @@ def install_node():
     print("You didn't answer Mac or Linux")
     install_node()
 
-def rs():
+def rs(port=8000):
   """
-  Start development server and grunt tasks
+  Start development server and grunt tasks. Optionally, specify port
   """
-  local("python manage.py rserver")
+  local("python manage.py rserver 0.0.0.0:%s" % port)
 
 def grunt():
   """
