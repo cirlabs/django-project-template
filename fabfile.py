@@ -96,11 +96,23 @@ def install_node():
         print ("You did not answer 'Y' or 'N'.")
 
   elif (answer.upper() == 'LINUX'):
-    local("sudo apt-get update")
-    local("sudo apt-get install -y python-software-properties python g++ make")
-    local("sudo add-apt-repository -y ppa:chris-lea/node.js")
-    local("sudo apt-get update")
-    local("sudo apt-get install nodejs")
+    local('wget http://nodejs.org/dist/v0.10.25/node-v0.10.25.tar.gz')
+    local('tar -xvzf node-v0.10.25.tar.gz')
+    local('cd node-v0.10.25')
+    local('mkdir ~/.node')
+    local('./configure --prefix=~/.node')
+    local('make')
+    local('make install')
+    local('echo "export PATH=~/.node/bin:${PATH}" >> ~/.zshrc')
+    local('echo "export PATH=~/.node/bin:${PATH}" >> ~/.bashrc')
+    # this may happen automatically so check first
+    local('echo "export NODE_PATH=$NODE_PATH:/$HOME/.node/lib/node_modules" >> ~/.zshrc && source ~/.zshrc')
+    local('echo "export NODE_PATH=$NODE_PATH:/$HOME/.node/lib/node_modules" >> ~/.bashrc && source ~/.bashrc')
+    local('cd ..')
+    local('rm -rf node-v0.10.25')
+    local('rm node-v0.10.25.tar.gz')
+    
+    print "Node.js installed"
 
   else:
     print("You didn't answer Mac or Linux")
