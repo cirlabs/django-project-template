@@ -48,8 +48,8 @@ def setup():
         else:
           print ("Error: you did not answer 'y' or 'n'")
 
-        yo()
-        createdb()
+    yo()
+    createdb()
 
 def get_node_libs():
     """
