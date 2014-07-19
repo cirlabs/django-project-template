@@ -56,6 +56,8 @@ INSTALLED_APPS = (
     #External Apps
     # 'south',
     'compressor',
+    'bakery',
+    'django_extensions',
 
     # Project Apps
     '{{ project_name }}.apps.core',
