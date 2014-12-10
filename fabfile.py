@@ -133,6 +133,12 @@ def grunt():
     """
     local('cd {{ project_name }} && grunt')
 
+def sh():
+    """
+    Run Django extensions shell
+    """
+    local('python manage.py shell_plus')
+
 def startapp(app_name=''):
     """
     Create django app
