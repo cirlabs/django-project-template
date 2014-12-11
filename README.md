@@ -46,7 +46,7 @@ Hop into the repo and and install the project dependencies
 ```bash
 $ cd project_name
 $ pip install -r requirements.txt
-``` 
+```
 
 ## Frontend Setup
 
@@ -91,7 +91,25 @@ $ fab rs
 ```
 
 ## Override settings
-If you'd like to override the settings in common.py, just create a `local_settings.py` file in `settings/`. `common.py` will import it at the bottom. 
+If you'd like to override the settings in common.py, just create a `local_settings.py` file in `settings/`. `common.py` will import it at the bottom.
+
+## Postgis
+In `settings/common.py`:
+
+```python
+# POSTGIS
+INSTALLED_APPS = (
+    ...
+    'django.contrib.gis',
+}
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': '{{ project_name }}',
+    }
+}
+```
 
 ## Deployment
 We typically deploy the app slug to Heroku and the DB to some DB host (AWS, Rackspace, etc.)
@@ -120,4 +138,4 @@ Now, get coding you! Remove this `README` file and add your own.
 
 ### Credits
 
-This project was inspired by the [@datadesk django-project-template](https://github.com/datadesk/django-project-template) 
+This project was inspired by the [@datadesk django-project-template](https://github.com/datadesk/django-project-template)

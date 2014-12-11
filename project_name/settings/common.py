@@ -25,6 +25,9 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
+# Directory where you store all your data
+DATA_DIR = os.path.join(SITE_ROOT, 'data')
+
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates')
 )
@@ -47,14 +50,13 @@ INSTALLED_APPS = (
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.gis',
+    # 'django.contrib.gis',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
     'django.contrib.admin',
     'django.contrib.admindocs',
 
     #External Apps
-    # 'south',
     'compressor',
     'bakery',
     'django_extensions',
@@ -80,6 +82,15 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
 
+# POSTGIS
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.contrib.gis.db.backends.postgis',
+#         'NAME': '{{ project_name }}',
+#     }
+# }
+
+# POSTGRES
 DATABASES = {
     'default': {
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
