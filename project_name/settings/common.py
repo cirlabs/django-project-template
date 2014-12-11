@@ -25,9 +25,6 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-# Directory where you store all your data
-DATA_DIR = os.path.join(SITE_ROOT, 'data')
-
 TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
@@ -39,7 +36,18 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     '{{ project_name }}.apps.core.context_processors.debug',
 )
 
+# Directory where you store all your data
+DATA_DIR = os.path.join(SITE_ROOT, 'data')
+
 ALLOWED_HOSTS = []
+
+# Whether or not you want to use grunt.js with the runserver command and fab
+# http://gruntjs.com/
+USE_GRUNT = False
+
+# Whether or not to use PostGIS
+# http://postgis.net/
+USE_POSTGIS = False
 
 
 # Application definition
@@ -88,14 +96,6 @@ DATABASES = {
         'NAME': '{{ project_name }}',
     }
 }
-
-import sys
-if 'test' in sys.argv:
-    # Test-specific DB
-    DATABASES['default'] = {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'test.db'
-    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/{{ docs_version }}/topics/i18n/

@@ -17,7 +17,9 @@ class Command(StaticfilesRunserverCommand):
     help = "Runs `grunt default` before launching Django's own runserver"
 
     def inner_run(self, *args, **options):
-        self.start_grunt()
+        if settings.USE_GRUNT:
+            self.start_grunt()
+            
         return super(Command, self).inner_run(*args, **options)
 
     def start_grunt(self):
