@@ -34,7 +34,7 @@ $ mkvirtualenv project_name --no-site-packages
 Install Django
 
 ```bash
-$ pip install django==1.6
+$ pip install django
 ```
 
 Create django project with this template
