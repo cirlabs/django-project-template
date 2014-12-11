@@ -47,18 +47,16 @@ USE_GRUNT = False
 
 # Whether or not to use PostGIS
 # http://postgis.net/
-USE_POSTGIS = False
+USE_POSTGIS = True
 
 
 # Application definition
-
 INSTALLED_APPS = (
     # Django apps
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.gis',
     'django.contrib.humanize',
     'django.contrib.staticfiles',
     'django.contrib.admin',
@@ -70,8 +68,11 @@ INSTALLED_APPS = (
     'django_extensions',
 
     # Project Apps
-    '{{ project_name }}.apps.core',
+    'lib',
 )
+
+if USE_POSTGIS:
+    INSTALLED_APPS += ('django.contrib.gis',)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -90,9 +91,10 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
 
+db = 'postgis' if USE_POSTGIS else 'postgresql_psycopg2'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'postgis', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.'+db, # Add 'postgresql_psycopg2', 'postgis', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': '{{ project_name }}',
     }
 }
