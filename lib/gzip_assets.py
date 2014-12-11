@@ -20,7 +20,7 @@ shutil.copytree(os.path.join(project_dir, 'static'), os.path.join(project_dir, '
 for path, dirs, files in os.walk(os.path.join(project_dir, 'gzip/static')):
     for filename in files:
         file_path = os.path.join(path, filename)
-        
+
         f_in = open(file_path, 'rb')
         contents = f_in.readlines()
         f_in.close()
