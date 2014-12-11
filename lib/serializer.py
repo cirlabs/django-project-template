@@ -1,5 +1,7 @@
 """
 Tastypie serializer class for CSV exports and pretty priting JSON
+
+Note: This code won't work out the box.
 Use it as a starting point for other custom serializers in a project
 """
 import csv
