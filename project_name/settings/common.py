@@ -29,7 +29,7 @@ TEMPLATE_DEBUG = True
 DATA_DIR = os.path.join(SITE_ROOT, 'data')
 
 TEMPLATE_DIRS = (
-    os.path.join(SITE_ROOT, 'templates')
+    os.path.join(SITE_ROOT, 'templates'),
 )
 
 # Enable a debug template tag

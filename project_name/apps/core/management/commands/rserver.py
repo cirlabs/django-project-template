@@ -1,34 +1,40 @@
+import os
 import subprocess
+import atexit
+import signal
 
-from django.core.management.base import BaseCommand
-from django.core import management
 from django.conf import settings
+from django.contrib.staticfiles.management.commands.runserver import Command\
+    as StaticfilesRunserverCommand
 
 
-class Command(BaseCommand):
+class Command(StaticfilesRunserverCommand):
+    """
+    Runserver that also uses grunt
+    http://lincolnloop.com/blog/simplifying-your-django-frontend-tasks-grunt/
+    """
+
     help = "Runs `grunt default` before launching Django's own runserver"
 
-    def handle(self, *args, **options):
-        self.grunt()
+    def inner_run(self, *args, **options):
+        self.start_grunt()
+        return super(Command, self).inner_run(*args, **options)
 
-        # `interactive = False` is the undocumented equivalent of the '--no-input' flag,
-        # which we can't use in a management command. See http://stackoverflow.com/a/9999429/8438
-        # management.call_command('collectstatic', interactive = False)
-
-        # Allow specifying an IP:port string, if provided
-        if args:
-            management.call_command('runserver', args[0])
-        else:
-            management.call_command('runserver')
-
-    def grunt(self):
-        # self.stdout.write(self.style.NOTICE(">>> Compass is watching %r") % settings.COMPASS_INPUT_PATH + "\n" )
-        # self.stdout.write(self.style.NOTICE(">>> Generated CSS is at %r") % settings.COMPASS_OUTPUT_PATH + "\n" )
-        subprocess.Popen(
+    def start_grunt(self):
+        self.stdout.write('>>> Starting grunt')
+        self.grunt_process = subprocess.Popen(
             ['cd %s && grunt' % settings.BASE_DIR],
             shell=True,
             stdin=subprocess.PIPE,
             stdout=self.stdout,
             stderr=self.stderr,
         )
-        # self.stdout.write(self.style.NOTICE(">>> Compass watch process on pid %r" % self.compass_process.pid) + "\n")
+
+        self.stdout.write(
+            '>>> Grunt process on pid {0}'.format(self.grunt_process.pid))
+
+        def kill_grunt_process(pid):
+            self.stdout.write('>>> Closing grunt process')
+            os.kill(pid, signal.SIGTERM)
+
+        atexit.register(kill_grunt_process, self.grunt_process.pid)
