@@ -1,4 +1,4 @@
 # lib
-This directory is for utility scripts that don't rely on the Django framework. Or, keep useful snippets of code you use all the time. Up to you.
+This directory is for utility scripts that don't rely on the Django framework or useful snippets of code you use all the time.
 
-Store any useful piece of code here. 
+Up to you.
