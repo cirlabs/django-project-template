@@ -19,7 +19,7 @@ class Command(StaticfilesRunserverCommand):
     def inner_run(self, *args, **options):
         if settings.USE_GRUNT:
             self.start_grunt()
-            
+
         return super(Command, self).inner_run(*args, **options)
 
     def start_grunt(self):
