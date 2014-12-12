@@ -10,20 +10,20 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         # read in CSV
-        print ("This is an auto-generated Django model module \
+        print("This is an auto-generated Django model module \
             created by apps.core.commands.")
-        print "from django.contrib.gis.db import models\n"
+        print("from django.contrib.gis.db import models\n")
 
         with open(args[0], 'rb') as csvfile:
 
             reader = csv.reader(csvfile)
             headers = reader.next()
-            print "class GeneratedModel(models.Model):"
+            print("class GeneratedModel(models.Model):")
 
             for row in headers:
                 # take the row, convert to unicode, slugify it
                 #  and replace the hyphens with underscores
-                field = slugify(unicode(row)).replace('-', '_')
-                print "    %s = models.CharField(max_length=255)" % field
+                field = slugify(str(row)).replace('-', '_')
+                print("    %s = models.CharField(max_length=255)" % field)
 
-            print "\n"
+            print("\n")
