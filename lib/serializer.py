@@ -50,4 +50,4 @@ class CIRCustomSerializer(Serializer):
         return response
 
     def encode(self, aitem, akey):
-        return unicode(aitem[akey]).encode('utf-8', 'replace')
+        return str(aitem[akey]).encode('utf-8', 'replace')
