@@ -20,7 +20,7 @@ site_media_prefix = "site_media"
 production_domain = 'apps.cironline.org'
 
 # what you want to call it when it goes live
-verbose_production_name = 'hired-guns'
+verbose_production_name = ''
 
 
 def rs(port=8000):

@@ -1,0 +1,3 @@
+Fabric
+wsgiref
+python-memcached
