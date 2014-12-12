@@ -18,3 +18,6 @@ sqlparse
 static
 ipdb
 ipython
+wsgiref
+python-memcached
+
