@@ -2,7 +2,8 @@ from setuptools import setup
 from distutils.core import Command
 
 import django
-django.setup()
+from django.conf import settings
+from django.core.management import call_command
 
 
 class TestCommand(Command):
@@ -15,7 +16,6 @@ class TestCommand(Command):
         pass
 
     def run(self):
-        from django.conf import settings
         settings.configure(
             DATABASES={
                 'default': {
@@ -29,9 +29,15 @@ class TestCommand(Command):
                 'django.contrib.sessions',
                 'django.contrib.admin',
                 'lib',
+            ),
+            MIDDLEWARE_CLASSES = (
+                'django.contrib.sessions.middleware.SessionMiddleware',
+                'django.contrib.auth.middleware.AuthenticationMiddleware',
+                'django.contrib.messages.middleware.MessageMiddleware',
             )
         )
-        from django.core.management import call_command
+
+        django.setup()
         call_command('test', 'lib')
 
 
