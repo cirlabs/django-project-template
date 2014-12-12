@@ -1,6 +1,9 @@
 from setuptools import setup
 from distutils.core import Command
 
+import django
+django.setup()
+
 
 class TestCommand(Command):
     user_options = []
