@@ -29,11 +29,8 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
 
-# Enable a debug template tag
-# http://stackoverflow.com/a/13609888/868724
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-    '{{ project_name }}.apps.core.context_processors.debug',
 )
 
 # Directory where you store all your data
@@ -91,10 +88,9 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
 
-db = 'postgis' if USE_POSTGIS else 'postgresql_psycopg2'
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.'+db, # Add 'postgresql_psycopg2', 'postgis', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'postgis', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': '{{ project_name }}',
     }
 }

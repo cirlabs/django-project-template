@@ -23,7 +23,7 @@ class Command(BaseCommand):
             for row in headers:
                 # take the row, convert to unicode, slugify it
                 #  and replace the hyphens with underscores
-                field = slugify(str(row)).replace('-', '_')
+                field = slugify(unicode(row)).replace('-', '_')
                 print("    %s = models.CharField(max_length=255)" % field)
 
             print("\n")

@@ -14,14 +14,18 @@ pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
 
 s3_directory = project_name
-s3_bucket = settings.AWS_BUCKET_NAME
 media_s3_bucket = 'media-apps-cironline-org'
 site_media_prefix = "site_media"
 production_domain = 'apps.cironline.org'
+verbose_production_name = '' # what you want to call it when it goes live
 
-# what you want to call it when it goes live
-verbose_production_name = ''
-
+"""
+Set AWS_BUCKET_NAME in `settings/production.py`
+"""
+try:
+    s3_bucket = settings.AWS_BUCKET_NAME
+except AttributeError:
+    pass
 
 def rs(port=8000):
     """
