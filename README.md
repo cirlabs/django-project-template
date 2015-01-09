@@ -1,9 +1,9 @@
 # Django Project Template [![Build Status](https://secure.travis-ci.org/cirlabs/django-project-template.png?branch=master)](http://travis-ci.org/cirlabs/django-project-template)
 
 ## Requirements
-- [Django](https://www.djangoproject.com/)
-- [Postgres 9.x](http://www.postgresql.org/)
-- [PostGIS 2.0](http://postgis.net/)
+- [Django 1.7+](https://www.djangoproject.com/)
+- [Postgres 9.3+](http://www.postgresql.org/)
+- [PostGIS 2.1+](http://postgis.net/)
 - [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/)
 
 ## Quickstart
