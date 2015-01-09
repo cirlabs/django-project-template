@@ -18,3 +18,4 @@ sqlparse
 static
 ipdb
 ipython
+csvkit

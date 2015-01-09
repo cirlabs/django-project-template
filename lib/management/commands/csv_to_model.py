@@ -1,4 +1,4 @@
-import csv
+import csvkit
 
 from django.utils.text import slugify
 from django.core.management.base import BaseCommand
@@ -16,14 +16,14 @@ class Command(BaseCommand):
 
         with open(args[0], 'rb') as csvfile:
 
-            reader = csv.reader(csvfile)
+            reader = csvkit.reader(csvfile)
             headers = reader.next()
             print("class GeneratedModel(models.Model):")
 
             for row in headers:
-                # take the row, convert to unicode, slugify it
-                #  and replace the hyphens with underscores
-                field = slugify(unicode(row)).replace('-', '_')
+                # take the row, slugify it
+                # and replace the hyphens with underscores
+                field = slugify(row).replace('-', '_')
                 print("    %s = models.CharField(max_length=255)" % field)
 
             print("\n")
