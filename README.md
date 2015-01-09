@@ -1,9 +1,9 @@
 # Django Project Template [![Build Status](https://secure.travis-ci.org/cirlabs/django-project-template.png?branch=master)](http://travis-ci.org/cirlabs/django-project-template)
 
 ## Requirements
-- [Django](https://www.djangoproject.com/)
-- [Postgres 9.x](http://www.postgresql.org/)
-- [PostGIS 2.0](http://postgis.net/)
+- [Django 1.7+](https://www.djangoproject.com/)
+- [Postgres 9.3+](http://www.postgresql.org/)
+- [PostGIS 2.1+](http://postgis.net/)
 - [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/)
 
 ## Quickstart
@@ -12,7 +12,11 @@ $ mkvirtualenv project_name
 $ pip install django
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/cirlabs/django-project-template/archive/master.zip project_name
 $ cd project_name
-$ pip install -r requirements.txt
+$ pip install -r requirements/base.txt
+$ pip install -r requirements/python2.txt # For Fabric and memcached
+$ fab createdb # create postgis database
+$ python manage.py migrate
+$ fab rs # start server
 ```
 
 Need a frontend scaffold too? See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp).
