@@ -12,7 +12,11 @@ $ mkvirtualenv project_name
 $ pip install django
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/cirlabs/django-project-template/archive/master.zip project_name
 $ cd project_name
-$ pip install -r requirements.txt
+$ pip install -r requirements/base.txt
+$ pip install -r requirements/python2.txt # For Fabric and memcached
+$ fab createdb # create postgis database
+$ python manage.py migrate
+$ fab rs # start server
 ```
 
 Need a frontend scaffold too? See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp).
