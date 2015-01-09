@@ -29,11 +29,8 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
 
-# Enable a debug template tag
-# http://stackoverflow.com/a/13609888/868724
 TEMPLATE_CONTEXT_PROCESSORS = (
     'django.contrib.auth.context_processors.auth',
-    '{{ project_name }}.apps.core.context_processors.debug',
 )
 
 # Directory where you store all your data
