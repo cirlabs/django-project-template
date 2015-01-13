@@ -23,22 +23,7 @@ Need a frontend scaffold too? See [cirlabs/generator-newsapp](http://github.com/
 
 
 ## Postgis
-In `settings/common.py`:
-
-```python
-# POSTGIS
-INSTALLED_APPS = (
-    ...
-    'django.contrib.gis',
-}
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': '{{ project_name }}',
-    }
-}
-```
+By default, this project assumes you'll be using PostGIS as your database. If you'd prefer not to, you can set the `USE_POSTGIS` variable in `settings/common.py` to false and the project will default to PostgreSQL.
 
 ## Notes
 - If you're creating a GeoDjango application on Heroku, you're going to need geo spatial libraries like GDAL and PostGIS. Luckily, CIR is here to help. Read more about our GeoDjango buildpack here: [cirlabs/heroku-buildpack-geodjango](https://github.com/cirlabs/heroku-buildpack-geodjango)
