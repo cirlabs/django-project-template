@@ -1,4 +1,5 @@
 import os
+import sys
 
 from fabric.api import local
 from fabric.contrib import django
@@ -8,7 +9,7 @@ project_name = '{0}'.format('{{ project_name }}')
 project_settings = project_name + '.settings'
 django.settings_module(project_settings)
 from django.conf import settings
-
+from django.utils.termcolors import colorize
 
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
@@ -26,6 +27,28 @@ try:
     s3_bucket = settings.AWS_BUCKET_NAME
 except AttributeError:
     pass
+
+def bootstrap():
+    """
+    Run commands to setup a new project
+    """
+
+    try:
+        string = "Success! Now run `fab rs` to start the development server"
+
+        local("pip install -r requirements/base.txt")
+        local("pip install -r requirements/python2.txt") # For Fabric and memcached
+        createdb() # create postgis database
+        local("python manage.py migrate")
+        sys.stdout.write(
+            colorize(string, fg="green")
+        )
+    except Exception:
+        string = "Uh oh! Something went wrong. Double check your settings"
+        sys.stdout.write(
+            colorize(string, fg="green")
+        )
+
 
 def rs(port=8000):
     """
