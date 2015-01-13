@@ -87,10 +87,15 @@ WSGI_APPLICATION = '{{ project_name }}.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/{{ docs_version }}/ref/settings/#databases
+if USE_POSTGIS:
+    DB = 'django.contrib.gis.db.backends.postgis'
+else:
+    # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+    DB = 'django.db.backends.postgresql_psycopg2'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'postgis', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': DB,
         'NAME': '{{ project_name }}',
     }
 }
