@@ -1,5 +1,6 @@
 import os
 import sys
+from logging import warning
 
 from fabric.api import local
 from fabric.contrib import django
@@ -9,7 +10,6 @@ project_name = '{0}'.format('{{ project_name }}')
 project_settings = project_name + '.settings'
 django.settings_module(project_settings)
 from django.conf import settings
-from django.utils.termcolors import colorize
 
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
@@ -24,9 +24,9 @@ verbose_production_name = '' # what you want to call it when it goes live
 Set AWS_BUCKET_NAME in `settings/production.py`
 """
 try:
-    s3_bucket = settings.AWS_BUCKET_NAME
-except AttributeError:
-    pass
+    from {{ project_name }},settings.production import AWS_BUCKET_NAME
+except ImportError:
+    warning("Please set AWS_BUCKET_NAME in production.py before executing any deploy tasks")
 
 def bootstrap():
     """
