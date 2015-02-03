@@ -23,4 +23,4 @@ AWS_BUCKET_NAME = 'apps-cironline-org'
 #ALLOWED_HOSTS = ['apps.cironline.org']
 
 # Static
-STATIC_URL = '//s3-us-west-1.amazonaws.com/media-apps-cironline-org/{{ project_name }}'
+STATIC_URL = '//s3-us-west-1.amazonaws.com/media-apps-cironline-org/{{ project_name }}/'
