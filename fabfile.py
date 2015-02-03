@@ -222,7 +222,7 @@ def deploy():
     reset()
     compress()
     build()
-    gzip_assets()
     grunt_build()
+    gzip_assets()
     deploy_to_s3()
     publish()
