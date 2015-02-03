@@ -172,7 +172,7 @@ def gzip_assets():
     GZips every file in the assets directory and places the new file
     in the gzip directory with the same filename.
     """
-    local("cd {0}; python ./gzip_assets.py".format(pwd))
+    local("cd {0}; python ./lib/gzip_assets.py".format(pwd))
 
 
 def grunt_build():
