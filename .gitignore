@@ -9,5 +9,9 @@ data/
 # local settings
 */settings/local_settings.py
 
+build/
+gzip/
+static/
+
 # ignore the css file
 */assets/styles/*.css
