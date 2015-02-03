@@ -25,8 +25,13 @@ Set AWS_BUCKET_NAME in `settings/production.py`
 """
 try:
     s3_bucket = settings.AWS_BUCKET_NAME
-except AttributeError:
-    pass
+except ImportError:
+    string = "Please set AWS_BUCKET_NAME in production.py \
+        before executing any deploy"
+
+    sys.stdout.write(
+        colorize(string, fg="red")
+    )
 
 def bootstrap():
     """
