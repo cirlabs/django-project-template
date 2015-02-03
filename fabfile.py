@@ -5,7 +5,7 @@ from fabric.api import local
 from fabric.contrib import django
 
 
-project_name = '{0}'.format('{{ project_name }}')
+project_name = '{{ project_name }}'
 project_settings = project_name + '.settings'
 django.settings_module(project_settings)
 from django.conf import settings
@@ -13,18 +13,20 @@ from django.utils.termcolors import colorize
 
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
+static_path = '{0}/{1}/static/'.format(pwd, project_name)
 
-s3_directory = project_name
 media_s3_bucket = 'media-apps-cironline-org'
-site_media_prefix = "site_media"
-production_domain = 'apps.cironline.org'
 verbose_production_name = '' # what you want to call it when it goes live
 
 """
-Set AWS_BUCKET_NAME in `settings/production.py`
+Set AWS_BUCKET_NAME, AWS_STAGING_BUCKET_NAME
+in `settings/production.py`
 """
 try:
-    s3_bucket = settings.AWS_BUCKET_NAME
+    from {{ project_name }}.settings.production import (
+        AWS_BUCKET_NAME,
+        AWS_STAGING_BUCKET_NAME
+    )
 except ImportError:
     string = "Please set AWS_BUCKET_NAME in production.py \
         before executing any deploy"
@@ -32,6 +34,11 @@ except ImportError:
     sys.stdout.write(
         colorize(string, fg="red")
     )
+
+"""
+Development Tasks
+============
+"""
 
 def bootstrap():
     """
@@ -48,11 +55,12 @@ def bootstrap():
         sys.stdout.write(
             colorize(string, fg="green")
         )
-    except Exception:
-        string = "Uh oh! Something went wrong. Double check your settings"
+    except Exception, e:
+        string = "Uh oh! Something went wrong. Double check your settings. Error:"
         sys.stdout.write(
-            colorize(string, fg="green")
+            colorize(string, fg="red")
         )
+        raise e
 
 
 def rs(port=8000):
@@ -162,10 +170,10 @@ def destroy():
 
         else:
             print("You didn't answer 'Y' or 'N'")
-
-# Static media
-# This should all run after a grunt task runs to collect the deps used
-
+"""
+Deployment Tasks
+================
+"""
 
 def gzip_assets():
     """
@@ -173,7 +181,6 @@ def gzip_assets():
     in the gzip directory with the same filename.
     """
     local("cd {0}; python ./lib/gzip_assets.py".format(pwd))
-
 
 def grunt_build():
     """
@@ -186,42 +193,49 @@ def grunt_build():
 def deploy_to_s3():
     """
     Deploy the latest project site media to S3.
+    Path options:
+    use `gzip_path` if gziping assets (default)
+    use `static_path` if not e.g.
+
+    local('s3cmd -P --guess-mime-type sync {1} \
+        s3://{2}/{3}/'.format(pwd, static_path, media_s3_bucket, project_name))
+
     """
     local('s3cmd -P --add-header=Content-encoding:gzip \
         --guess-mime-type --rexclude-from={0}/s3exclude sync {1} \
-        s3://{2}/{3}/'.format(pwd, gzip_path, media_s3_bucket, s3_directory))
-
+        s3://{2}/{3}/'.format(pwd, gzip_path, media_s3_bucket, project_name))
 
 def publish():
     """publish build from django bakery to s3"""
-    local('s3cmd -P sync \
-        /home/aaron/Code/{{ project_name }}/{{ project_name }}/build/ \
-        s3://apps.cironline.org/hacienda/')
-
+    # add --cf-invalidate if pushing to production
+    local('s3cmd --cf-invalidate -P \
+        sync {0}/{1}/build/ s3://{2}/{3}/'.format(
+            pwd,
+            project_name,
+            AWS_STAGING_BUCKET_NAME,
+            verbose_production_name
+        )
+    )
 
 def build():
     """shortcut for django bakery build command"""
     local('python manage.py build \
         --skip-static --settings={{ project_name }}.settings.production')
 
-
 def unbuild():
     """shortcut for django bakery unbuild command"""
     local('python manage.py unbuild \
         --settings={{ project_name }}.settings.production')
-
 
 def compress():
     """shortcut for django compressor offline compression command"""
     local('python manage.py compress \
         --settings={{ project_name }}.settings.production')
 
-
 def reset():
     """delete all the deploy code"""
     local('cd {{ project_name }} && \
         rm -rf static && rm -rf gzip && rm -rf build')
-
 
 def deploy():
     reset()
