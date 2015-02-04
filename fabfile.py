@@ -18,6 +18,9 @@ static_path = '{0}/{1}/static/'.format(pwd, project_name)
 media_s3_bucket = 'media-apps-cironline-org'
 verbose_production_name = '' # what you want to call it when it goes live
 
+# log statement to console with optional color (defaults to white)
+log = lambda x, y="white": sys.stdout.write(colorize(x, fg=y))
+
 """
 Set AWS_BUCKET_NAME, AWS_STAGING_BUCKET_NAME
 in `settings/production.py`
@@ -28,12 +31,9 @@ try:
         AWS_STAGING_BUCKET_NAME
     )
 except ImportError:
-    string = "Please set AWS_BUCKET_NAME in production.py \
-        before executing any deploy"
+    log("Please set AWS_BUCKET_NAME in production.py \
+        before executing any deploy", "red")
 
-    sys.stdout.write(
-        colorize(string, fg="red")
-    )
 
 """
 Development Tasks
@@ -46,20 +46,23 @@ def bootstrap():
     """
 
     try:
-        string = "Success! Now run `fab rs` to start the development server"
-
         local("pip install -r requirements/base.txt")
         local("pip install -r requirements/python2.txt") # For Fabric and memcached
+
         createdb() # create postgis database
+
         local("python manage.py migrate")
-        sys.stdout.write(
-            colorize(string, fg="green")
+
+        log(
+            "Success! Now run `fab rs` to start the development server",
+            "green"
         )
     except Exception, e:
-        string = "Uh oh! Something went wrong. Double check your settings. Error:"
-        sys.stdout.write(
-            colorize(string, fg="red")
+        log(
+            "Uh oh! Something went wrong. Double check your settings. Error:",
+            "red"
         )
+
         raise e
 
 
@@ -88,9 +91,23 @@ def startapp(app_name=''):
     """
     Create django app
     """
+    # create django app and move to apps
     local("python manage.py startapp {0}".format(app_name))
     local("mv {0} {1}/apps/".format(app_name, project_name))
-    print("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
+
+    # make managment command directory
+    local("mkdir {0}/apps/{1}/management".format(project_name, app_name))
+    local("mkdir {0}/apps/{1}/management/commands".format(project_name, app_name))
+    local("touch {0}/apps/{1}/management/__init__.py".format(
+        project_name, app_name
+        )
+    )
+    local("touch {0}/apps/{1}/management/commands/__init__.py".format(
+        project_name, app_name
+        )
+    )
+
+    log("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
         INSTALLED_APPS in settings/common.py\n".format(project_name, app_name))
 
 
@@ -120,7 +137,7 @@ def loaddata(app_name=''):
         local("python manage.py loaddata {0}".format(fixtures_dir))
 
     else:
-        print "please specify an app name"
+        log("please specify an app name", "red")
 
 
 def createdb():
@@ -155,8 +172,8 @@ def destroy():
     """
     destoys the database and django project. Be careful!
     """
-    print("You are about to mothball this entire project. \
-        Sure you want to do that? <enter 'Y' or 'N'>")
+    log("You are about to mothball this entire project. \
+        Sure you want to do that? <enter 'Y' or 'N'>", "red")
     while True:
         answer = raw_input("> ")
         if (answer.upper() == 'Y'):
@@ -165,11 +182,11 @@ def destroy():
             break
 
         elif (answer.upper() == 'N'):
-            print("cancelling destory")
+            log("cancelling destory")
             break
 
         else:
-            print("You didn't answer 'Y' or 'N'")
+            log("You didn't answer 'Y' or 'N'")
 """
 Deployment Tasks
 ================
