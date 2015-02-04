@@ -261,7 +261,10 @@ def deploy():
     reset()
     compress()
     build()
-    grunt_build()
+
+    if settings.USE_GRUNT:
+        grunt_build()
+        
     gzip_assets()
     deploy_to_s3()
     publish()
