@@ -207,8 +207,8 @@ def deploy_to_s3():
 
 def publish():
     """publish build from django bakery to s3"""
-    # add --cf-invalidate if pushing to production
-    local('s3cmd --cf-invalidate -P \
+    # add --cf-invalidate if pushing to bucket with Cloudfront caching
+    local('s3cmd -P \
         sync {0}/{1}/build/ s3://{2}/{3}/'.format(
             pwd,
             project_name,
