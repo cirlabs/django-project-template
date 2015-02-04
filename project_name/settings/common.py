@@ -29,8 +29,9 @@ TEMPLATE_DIRS = (
     os.path.join(SITE_ROOT, 'templates'),
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    'django.contrib.auth.context_processors.auth',
+INTERNAL_IPS = (
+    '127.0.0.1',
+    '0.0.0.0',
 )
 
 # Directory where you store all your data
@@ -118,7 +119,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/{{ docs_version }}/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/assets/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (

@@ -5,7 +5,7 @@ from fabric.api import local
 from fabric.contrib import django
 
 
-project_name = '{0}'.format('{{ project_name }}')
+project_name = '{{ project_name }}'
 project_settings = project_name + '.settings'
 django.settings_module(project_settings)
 from django.conf import settings
@@ -13,20 +13,32 @@ from django.utils.termcolors import colorize
 
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
+static_path = '{0}/{1}/static/'.format(pwd, project_name)
 
-s3_directory = project_name
 media_s3_bucket = 'media-apps-cironline-org'
-site_media_prefix = "site_media"
-production_domain = 'apps.cironline.org'
 verbose_production_name = '' # what you want to call it when it goes live
 
+# log statement to console with optional color (defaults to white)
+log = lambda x, y="white": sys.stdout.write(colorize(x, fg=y))
+
 """
-Set AWS_BUCKET_NAME in `settings/production.py`
+Set AWS_BUCKET_NAME, AWS_STAGING_BUCKET_NAME
+in `settings/production.py`
 """
 try:
-    s3_bucket = settings.AWS_BUCKET_NAME
-except AttributeError:
-    pass
+    from {{ project_name }}.settings.production import (
+        AWS_BUCKET_NAME,
+        AWS_STAGING_BUCKET_NAME
+    )
+except ImportError:
+    log("Please set AWS_BUCKET_NAME in production.py \
+        before executing any deploy", "red")
+
+
+"""
+Development Tasks
+============
+"""
 
 def bootstrap():
     """
@@ -34,20 +46,24 @@ def bootstrap():
     """
 
     try:
-        string = "Success! Now run `fab rs` to start the development server"
-
         local("pip install -r requirements/base.txt")
-        local("pip install -r requirements/python2.txt") # For Fabric and memcached
+        local("pip install -r requirements/python2.txt")
+
         createdb() # create postgis database
+
         local("python manage.py migrate")
-        sys.stdout.write(
-            colorize(string, fg="green")
+
+        log(
+            "Success! Now run `fab rs` to start the development server",
+            "green"
         )
-    except Exception:
-        string = "Uh oh! Something went wrong. Double check your settings"
-        sys.stdout.write(
-            colorize(string, fg="green")
+    except Exception, e:
+        log(
+            "Uh oh! Something went wrong. Double check your settings. Error:",
+            "red"
         )
+
+        raise e
 
 
 def rs(port=8000):
@@ -75,9 +91,26 @@ def startapp(app_name=''):
     """
     Create django app
     """
+    # create django app and move to apps
     local("python manage.py startapp {0}".format(app_name))
     local("mv {0} {1}/apps/".format(app_name, project_name))
-    print("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
+
+    # make managment command directory
+    local("mkdir {0}/apps/{1}/management".format(project_name, app_name))
+    local("mkdir {0}/apps/{1}/management/commands".format(
+        project_name, app_name
+        )
+    )
+    local("touch {0}/apps/{1}/management/__init__.py".format(
+        project_name, app_name
+        )
+    )
+    local("touch {0}/apps/{1}/management/commands/__init__.py".format(
+        project_name, app_name
+        )
+    )
+
+    log("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
         INSTALLED_APPS in settings/common.py\n".format(project_name, app_name))
 
 
@@ -107,7 +140,7 @@ def loaddata(app_name=''):
         local("python manage.py loaddata {0}".format(fixtures_dir))
 
     else:
-        print "please specify an app name"
+        log("please specify an app name", "red")
 
 
 def createdb():
@@ -142,8 +175,8 @@ def destroy():
     """
     destoys the database and django project. Be careful!
     """
-    print("You are about to mothball this entire project. \
-        Sure you want to do that? <enter 'Y' or 'N'>")
+    log("You are about to mothball this entire project. \
+        Sure you want to do that? <enter 'Y' or 'N'>", "red")
     while True:
         answer = raw_input("> ")
         if (answer.upper() == 'Y'):
@@ -152,23 +185,22 @@ def destroy():
             break
 
         elif (answer.upper() == 'N'):
-            print("cancelling destory")
+            log("cancelling destory")
             break
 
         else:
-            print("You didn't answer 'Y' or 'N'")
-
-# Static media
-# This should all run after a grunt task runs to collect the deps used
-
+            log("You didn't answer 'Y' or 'N'")
+"""
+Deployment Tasks
+================
+"""
 
 def gzip_assets():
     """
     GZips every file in the assets directory and places the new file
     in the gzip directory with the same filename.
     """
-    local("cd {0}; python ./gzip_assets.py".format(pwd))
-
+    local("cd {0}; python ./lib/gzip_assets.py".format(pwd))
 
 def grunt_build():
     """
@@ -181,48 +213,58 @@ def grunt_build():
 def deploy_to_s3():
     """
     Deploy the latest project site media to S3.
+    Path options:
+    use `gzip_path` if gziping assets (default)
+    use `static_path` if not e.g.
+
+    local('s3cmd -P --guess-mime-type sync {1} \
+        s3://{2}/{3}/'.format(pwd, static_path, media_s3_bucket, project_name))
+
     """
     local('s3cmd -P --add-header=Content-encoding:gzip \
         --guess-mime-type --rexclude-from={0}/s3exclude sync {1} \
-        s3://{2}/{3}/'.format(pwd, gzip_path, media_s3_bucket, s3_directory))
-
+        s3://{2}/{3}/'.format(pwd, gzip_path, media_s3_bucket, project_name))
 
 def publish():
     """publish build from django bakery to s3"""
-    local('s3cmd -P sync \
-        /home/aaron/Code/{{ project_name }}/{{ project_name }}/build/ \
-        s3://apps.cironline.org/hacienda/')
-
+    # add --cf-invalidate if pushing to bucket with Cloudfront caching
+    local('s3cmd -P \
+        sync {0}/{1}/build/ s3://{2}/{3}/'.format(
+            pwd,
+            project_name,
+            AWS_STAGING_BUCKET_NAME,
+            verbose_production_name
+        )
+    )
 
 def build():
     """shortcut for django bakery build command"""
     local('python manage.py build \
         --skip-static --settings={{ project_name }}.settings.production')
 
-
 def unbuild():
     """shortcut for django bakery unbuild command"""
     local('python manage.py unbuild \
         --settings={{ project_name }}.settings.production')
-
 
 def compress():
     """shortcut for django compressor offline compression command"""
     local('python manage.py compress \
         --settings={{ project_name }}.settings.production')
 
-
 def reset():
     """delete all the deploy code"""
     local('cd {{ project_name }} && \
         rm -rf static && rm -rf gzip && rm -rf build')
 
-
 def deploy():
     reset()
     compress()
     build()
+
+    if settings.USE_GRUNT:
+        grunt_build()
+        
     gzip_assets()
-    grunt_build()
     deploy_to_s3()
     publish()
