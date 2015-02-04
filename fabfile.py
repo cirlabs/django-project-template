@@ -47,7 +47,7 @@ def bootstrap():
 
     try:
         local("pip install -r requirements/base.txt")
-        local("pip install -r requirements/python2.txt") # For Fabric and memcached
+        local("pip install -r requirements/python2.txt")
 
         createdb() # create postgis database
 
@@ -97,7 +97,10 @@ def startapp(app_name=''):
 
     # make managment command directory
     local("mkdir {0}/apps/{1}/management".format(project_name, app_name))
-    local("mkdir {0}/apps/{1}/management/commands".format(project_name, app_name))
+    local("mkdir {0}/apps/{1}/management/commands".format(
+        project_name, app_name
+        )
+    )
     local("touch {0}/apps/{1}/management/__init__.py".format(
         project_name, app_name
         )
