@@ -11,7 +11,7 @@ from django.utils.termcolors import colorize
 from django.conf import settings
 
 from {{ project_name }}.settings.production import (
-    AWS_BUCKET_NAME, AWS_STAGING_BUCKET_NAME)
+    AWS_BUCKET_NAME, AWS_MEDIA_BUCKET_NAME,AWS_STAGING_BUCKET_NAME, BUILD_DIR)
 
 project_name = "{{ project_name }}"
 pwd = os.path.dirname(__file__)
@@ -20,8 +20,8 @@ static_path = '{0}/{1}/static/'.format(pwd, project_name)
 verbose_app_name = None # what you want to call it when it goes live
 
 s3 = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
-media_s3_bucket = 'media-apps-cironline-org'
 s3_bucket = s3.get_bucket(AWS_BUCKET_NAME)
+s3_media_bucket = s3.get_bucket(AWS_MEDIA_BUCKET_NAME)
 s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
 
 # log statement to console with optional color (defaults to white)
@@ -216,7 +216,7 @@ def deploy_to_s3():
     # paths
     dest_dir = verbose_app_name if verbose_app_name else project_name
 
-    app_directory = settings.BUILD_DIR
+    app_directory = BUILD_DIR
 
     source_dir = settings.STATIC_ROOT
 
@@ -224,21 +224,24 @@ def deploy_to_s3():
     app_directory_file_names = []
 
     # Grab files
-    for (source_dir, dirname, filename) in os.walk(source_dir):
-        upload_file_names.extend(filename)
-        break
+    for dir_, _, files in os.walk(source_dir):
+        for filename in files:
+            relative_directory = os.path.relpath(dir_, source_dir)
+            relative_file = os.path.join(relative_directory, filename)
+
+            upload_file_names.append(relative_file)
 
     for (app_directory, dirname, filename) in os.walk(app_directory):
         app_directory_file_names.extend(filename)
 
     # Upload static media
     for filename in upload_file_names:
-        source_path = os.path.join( verbose_app_name, filename )
+        source_path = os.path.join( settings.STATIC_ROOT, filename )
         dest_path = os.path.join(dest_dir, filename)
 
         log("  Uploading {0} to bucket {1}".format(
             source_path,
-            AWS_STAGING_BUCKET_NAME
+            AWS_MEDIA_BUCKET_NAME
             )
         )
 
@@ -246,7 +249,7 @@ def deploy_to_s3():
 
         if filesize > MAX_SIZE:
             log("    Large file. Running multipart upload")
-            mp = s3_staging_bucket
+            mp = s3_media_bucket
             fp = open(source_path, 'rb')
             fp_num = 0
             while (fp.tell() < filesize):
@@ -259,18 +262,20 @@ def deploy_to_s3():
 
         else:
             log("    Running upload")
-            k = Key(s3_staging_bucket)
+            k = Key(s3_media_bucket)
             k.key = dest_path
             k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
+            k.make_public()
 
     # Upload build files
     for filename in app_directory_file_names:
-        source_path = os.path.join( verbose_app_name, filename )
+        source_path = os.path.join( BUILD_DIR, filename )
         dest_path = os.path.join(dest_dir, filename)
 
         k = Key(s3_staging_bucket)
         k.key = dest_path
         k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
+        k.make_public()
 
 def build():
     """shortcut for django bakery build command"""
