@@ -1,39 +1,31 @@
 import os
 import sys
 
+import boto
+from boto.s3.key import Key
 from fabric.api import local
 from fabric.contrib import django
 
-
-project_name = '{{ project_name }}'
-project_settings = project_name + '.settings'
-django.settings_module(project_settings)
-from django.conf import settings
+django.settings_module("{{ project_name }}.settings")
 from django.utils.termcolors import colorize
+from django.conf import settings
 
+from {{ project_name }}.settings.production import (
+    AWS_BUCKET_NAME, AWS_STAGING_BUCKET_NAME)
+
+project_name = "{{ project_name }}"
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
 static_path = '{0}/{1}/static/'.format(pwd, project_name)
+verbose_app_name = None # what you want to call it when it goes live
 
+s3 = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
 media_s3_bucket = 'media-apps-cironline-org'
-verbose_production_name = '' # what you want to call it when it goes live
+s3_bucket = s3.get_bucket(AWS_BUCKET_NAME)
+s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
 
 # log statement to console with optional color (defaults to white)
 log = lambda x, y="white": sys.stdout.write(colorize(x, fg=y))
-
-"""
-Set AWS_BUCKET_NAME, AWS_STAGING_BUCKET_NAME
-in `settings/production.py`
-"""
-try:
-    from {{ project_name }}.settings.production import (
-        AWS_BUCKET_NAME,
-        AWS_STAGING_BUCKET_NAME
-    )
-except ImportError:
-    log("Please set AWS_BUCKET_NAME in production.py \
-        before executing any deploy", "red")
-
 
 """
 Development Tasks
@@ -65,13 +57,11 @@ def bootstrap():
 
         raise e
 
-
 def rs(port=8000):
     """
     Start development server and grunt tasks. Optionally, specify port
     """
     local("python manage.py rserver 0.0.0.0:%s" % port)
-
 
 def grunt():
     """
@@ -79,13 +69,11 @@ def grunt():
     """
     local('cd {{ project_name }} && grunt')
 
-
 def sh():
     """
     Run Django extensions shell
     """
     local('python manage.py shell_plus')
-
 
 def startapp(app_name=''):
     """
@@ -113,7 +101,6 @@ def startapp(app_name=''):
     log("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
         INSTALLED_APPS in settings/common.py\n".format(project_name, app_name))
 
-
 def dumpdata(app_name=''):
     """
     Dump the data of an app in json format
@@ -122,7 +109,6 @@ def dumpdata(app_name=''):
     local("python manage.py dumpdata {0} > fixtures/{1}.json".format(
         app_name, app_name
     ))
-
 
 def loaddata(app_name=''):
     """
@@ -142,7 +128,6 @@ def loaddata(app_name=''):
     else:
         log("please specify an app name", "red")
 
-
 def createdb():
     """
     Creates local database for project
@@ -154,13 +139,11 @@ def createdb():
             project_name
         ))
 
-
 def dropdb():
     """
     drops local database for project
     """
     local('echo "DROP DATABASE {0};" | psql postgres'.format(project_name))
-
 
 def clear(app_name, model_name):
     """
@@ -169,7 +152,6 @@ def clear(app_name, model_name):
     local("echo 'DROP TABLE {0}_{1};' | psql {{project_name}}".format(
         app_name, model_name
     ))
-
 
 def destroy():
     """
@@ -190,6 +172,7 @@ def destroy():
 
         else:
             log("You didn't answer 'Y' or 'N'")
+
 """
 Deployment Tasks
 ================
@@ -209,33 +192,85 @@ def grunt_build():
     """
     local('cd {{ project_name }} && grunt build')
 
-
 def deploy_to_s3():
     """
-    Deploy the latest project site media to S3.
+    Deploy project to S3.
+
     Path options:
     use `gzip_path` if gziping assets (default)
     use `static_path` if not e.g.
-
-    local('s3cmd -P --guess-mime-type sync {1} \
-        s3://{2}/{3}/'.format(pwd, static_path, media_s3_bucket, project_name))
-
     """
-    local('s3cmd -P --add-header=Content-encoding:gzip \
-        --guess-mime-type --rexclude-from={0}/s3exclude sync {1} \
-        s3://{2}/{3}/'.format(pwd, gzip_path, media_s3_bucket, project_name))
+    # See: https://gist.github.com/SavvyGuard/6115006
 
-def publish():
-    """publish build from django bakery to s3"""
-    # add --cf-invalidate if pushing to bucket with Cloudfront caching
-    local('s3cmd -P \
-        sync {0}/{1}/build/ s3://{2}/{3}/'.format(
-            pwd,
-            project_name,
-            AWS_STAGING_BUCKET_NAME,
-            verbose_production_name
+    def percent_cb(complete, total):
+        sys.stdout.write('.')
+        sys.stdout.flush()
+
+
+    # max size in bytes for uploading in parts. between 1 and 5 GB recommended
+    MAX_SIZE = 20 * 1000 * 1000
+
+    # size of parts when uploading in parts
+    PART_SIZE = 6 * 1000 * 1000
+
+    # paths
+    dest_dir = verbose_app_name if verbose_app_name else project_name
+
+    app_directory = settings.BUILD_DIR
+
+    source_dir = settings.STATIC_ROOT
+
+    upload_file_names = []
+    app_directory_file_names = []
+
+    # Grab files
+    for (source_dir, dirname, filename) in os.walk(source_dir):
+        upload_file_names.extend(filename)
+        break
+
+    for (app_directory, dirname, filename) in os.walk(app_directory):
+        app_directory_file_names.extend(filename)
+
+    # Upload static media
+    for filename in upload_file_names:
+        source_path = os.path.join( verbose_app_name, filename )
+        dest_path = os.path.join(dest_dir, filename)
+
+        log("  Uploading {0} to bucket {1}".format(
+            source_path,
+            AWS_STAGING_BUCKET_NAME
+            )
         )
-    )
+
+        filesize = os.path.getsize(source_path)
+
+        if filesize > MAX_SIZE:
+            log("    Large file. Running multipart upload")
+            mp = s3_staging_bucket
+            fp = open(source_path, 'rb')
+            fp_num = 0
+            while (fp.tell() < filesize):
+                fp_num += 1
+                log("      uploading part %i" % fp_num)
+                mp.upload_part_from_file(
+                    fp, fp_num, cb=percent_cb, num_cb=10, size=PART_SIZE)
+
+                mp.complete_upload()
+
+        else:
+            log("    Running upload")
+            k = Key(s3_staging_bucket)
+            k.key = dest_path
+            k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
+
+    # Upload build files
+    for filename in app_directory_file_names:
+        source_path = os.path.join( verbose_app_name, filename )
+        dest_path = os.path.join(dest_dir, filename)
+
+        k = Key(s3_staging_bucket)
+        k.key = dest_path
+        k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
 
 def build():
     """shortcut for django bakery build command"""
@@ -261,10 +296,5 @@ def deploy():
     reset()
     compress()
     build()
-
-    if settings.USE_GRUNT:
-        grunt_build()
-        
-    gzip_assets()
+    settings.USE_GRUNT and grunt_build()
     deploy_to_s3()
-    publish()
