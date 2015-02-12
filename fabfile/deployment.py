@@ -6,10 +6,12 @@ from boto.s3.key import Key
 from fabric.api import task, local
 from fabric.contrib import django
 
+from .lib.utils import log
+
 django.settings_module("{{ project_name }}.settings")
 from django.conf import settings
 
-from {{ project_name }}.settings.production import (
+from {{project_name}}.settings.production import (
     AWS_BUCKET_NAME,
     AWS_MEDIA_BUCKET_NAME,
     AWS_STAGING_BUCKET_NAME,
@@ -25,14 +27,15 @@ project_name = "{{ project_name }}"
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
 static_path = '{0}/{1}/static/'.format(pwd, project_name)
-verbose_app_name = None # what you want to call it when it goes live
+verbose_app_name = None  # what you want to call it when it goes live
 
-s3 = boto.connect_s3(settings.AWS_ACCESS_KEY_ID, settings.AWS_SECRET_ACCESS_KEY)
+s3 = boto.connect_s3(
+    settings.AWS_ACCESS_KEY_ID,
+    settings.AWS_SECRET_ACCESS_KEY
+)
 s3_bucket = s3.get_bucket(AWS_BUCKET_NAME)
 s3_media_bucket = s3.get_bucket(AWS_MEDIA_BUCKET_NAME)
 s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
-
-
 
 
 @task
@@ -43,6 +46,7 @@ def gzip_assets():
     """
     local("cd {0}; python ./lib/gzip_assets.py".format(pwd))
 
+
 @task
 def grunt_build():
     """
@@ -50,6 +54,7 @@ def grunt_build():
     needs to happen before deploying to s3
     """
     local('cd {{ project_name }} && grunt build')
+
 
 @task
 def deploy_to_s3():
@@ -65,7 +70,6 @@ def deploy_to_s3():
     def percent_cb(complete, total):
         sys.stdout.write('.')
         sys.stdout.flush()
-
 
     # max size in bytes for uploading in parts. between 1 and 5 GB recommended
     MAX_SIZE = 20 * 1000 * 1000
@@ -96,12 +100,12 @@ def deploy_to_s3():
 
     # Upload static media
     for filename in upload_file_names:
-        source_path = os.path.join( settings.STATIC_ROOT, filename )
+        source_path = os.path.join(settings.STATIC_ROOT, filename)
         dest_path = os.path.join(dest_dir, filename)
 
-        log("  Uploading {0} to bucket {1}".format(
-            source_path,
-            AWS_MEDIA_BUCKET_NAME
+        log(
+            "  Uploading {0} to bucket {1}".format(
+                source_path, AWS_MEDIA_BUCKET_NAME
             )
         )
 
@@ -129,7 +133,7 @@ def deploy_to_s3():
 
     # Upload build files
     for filename in app_directory_file_names:
-        source_path = os.path.join( BUILD_DIR, filename )
+        source_path = os.path.join(BUILD_DIR, filename)
         dest_path = os.path.join(dest_dir, filename)
 
         k = Key(s3_staging_bucket)
@@ -137,11 +141,13 @@ def deploy_to_s3():
         k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
         k.make_public()
 
+
 @task
 def build():
     """shortcut for django bakery build command"""
     local('python manage.py build \
         --skip-static --settings={{ project_name }}.settings.production')
+
 
 @task
 def unbuild():
@@ -149,17 +155,20 @@ def unbuild():
     local('python manage.py unbuild \
         --settings={{ project_name }}.settings.production')
 
+
 @task
 def compress():
     """shortcut for django compressor offline compression command"""
     local('python manage.py compress \
         --settings={{ project_name }}.settings.production')
 
+
 @task
 def reset():
     """delete all the deploy code"""
     local('cd {{ project_name }} && \
         rm -rf static && rm -rf gzip && rm -rf build')
+
 
 @task(default=True)
 def deploy():

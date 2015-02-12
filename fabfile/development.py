@@ -13,12 +13,14 @@ Development Tasks
 
 project_name = "{{ project_name }}"
 
+
 @task
 def rs(port=8000):
     """
     Start development server and grunt tasks. Optionally, specify port
     """
     local("python manage.py rserver 0.0.0.0:%s" % port)
+
 
 @task
 def grunt():
@@ -27,12 +29,14 @@ def grunt():
     """
     local('cd {{ project_name }} && grunt')
 
+
 @task
 def sh():
     """
     Run Django extensions shell
     """
     local('python manage.py shell_plus')
+
 
 @task
 def startapp(app_name=''):
@@ -61,6 +65,7 @@ def startapp(app_name=''):
     log("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
         INSTALLED_APPS in settings/common.py\n".format(project_name, app_name))
 
+
 @task
 def dumpdata(app_name=''):
     """
@@ -70,6 +75,7 @@ def dumpdata(app_name=''):
     local("python manage.py dumpdata {0} > fixtures/{1}.json".format(
         app_name, app_name
     ))
+
 
 @task
 def loaddata(app_name=''):
@@ -90,6 +96,7 @@ def loaddata(app_name=''):
     else:
         log("please specify an app name", "red")
 
+
 @task
 def createdb():
     """
@@ -102,12 +109,14 @@ def createdb():
             project_name
         ))
 
+
 @task
 def dropdb():
     """
     drops local database for project
     """
     local('echo "DROP DATABASE {0};" | psql postgres'.format(project_name))
+
 
 @task
 def clear(app_name, model_name):
@@ -117,6 +126,7 @@ def clear(app_name, model_name):
     local("echo 'DROP TABLE {0}_{1};' | psql {{project_name}}".format(
         app_name, model_name
     ))
+
 
 @task
 def destroy():
@@ -139,6 +149,7 @@ def destroy():
         else:
             log("You didn't answer 'Y' or 'N'")
 
+
 @task(default=True)
 def bootstrap():
     """
@@ -149,7 +160,7 @@ def bootstrap():
         local("pip install -r requirements/base.txt")
         local("pip install -r requirements/python2.txt")
 
-        createdb() # create postgis database
+        createdb()  # create postgis database
 
         local("python manage.py migrate")
 
