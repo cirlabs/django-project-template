@@ -1,3 +1,5 @@
+import os
+
 from lib.utils import log
 
 from fabric.api import local, task
@@ -20,14 +22,6 @@ def rs(port=8000):
     Start development server and grunt tasks. Optionally, specify port
     """
     local("python manage.py rserver 0.0.0.0:%s" % port)
-
-
-@task
-def grunt():
-    """
-    Run grunt tasks installed from Yeoman generator
-    """
-    local('cd {{ project_name }} && grunt')
 
 
 @task
@@ -72,12 +66,20 @@ def startapp(app_name=''):
 @task
 def dumpdata(app_name=''):
     """
-    Dump the data of an app in json format
-    and store it in the fixtures directory
+    Dump data of an app in JSON format and store in the fixtures directory
     """
-    local("python manage.py dumpdata {0} > fixtures/{1}.json".format(
-        app_name, app_name
-    ))
+    if app_name is not '':
+        fixtures_dir = os.path.join(settings.ROOT_DIR, app_name, 'fixtures')
+
+        if not os.path.exists(fixtures_dir):
+            os.makedirs(fixtures_dir)
+
+        local("python manage.py dumpdata {0} > {1}/{2}.json".format(
+            app_name, fixtures_dir, app_name
+            )
+        )
+    else:
+        log("please specify an app name", "red")
 
 
 @task
@@ -111,7 +113,8 @@ def createdb():
     if settings.USE_POSTGIS:
         local('echo "CREATE EXTENSION postgis;" | psql {0}'.format(
             project_name
-        ))
+            )
+        )
 
 
 @task
@@ -129,7 +132,8 @@ def clear(app_name, model_name):
     """
     local("echo 'DROP TABLE {0}_{1};' | psql {{project_name}}".format(
         app_name, model_name
-    ))
+        )
+    )
 
 
 @task
@@ -154,10 +158,10 @@ def destroy():
             log("You didn't answer 'Y' or 'N'")
 
 
-@task(default=True)
+@task()
 def bootstrap():
     """
-    Run commands to setup a new project
+    DEFAULT: Run commands to setup a new project
     """
 
     try:

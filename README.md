@@ -12,7 +12,7 @@ $ mkvirtualenv project_name
 $ pip install django fabric
 $ django-admin.py startproject --extension=py,.gitignore --template=https://github.com/cirlabs/django-project-template/archive/master.zip project_name
 $ cd project_name
-$ fab bootstrap
+$ fab dev # bootstrap project
 ```
 
 Need a frontend scaffold too? See [cirlabs/generator-newsapp](http://github.com/cirlabs/generator-newsapp).
@@ -20,6 +20,29 @@ Need a frontend scaffold too? See [cirlabs/generator-newsapp](http://github.com/
 
 ## Postgis
 By default, this project assumes you'll be using PostGIS as your database. If you'd prefer not to, you can set the `USE_POSTGIS` variable in `settings/common.py` to false and the project will default to PostgreSQL.
+
+## Tasks
+```bash
+bootstrap     Run commands to setup a new project
+build         shortcut for django bakery build command
+clear         Remove a model from an application database
+compress      shortcut for django compressor offline compression command
+createdb      Creates local database for project
+deploy_to_s3  Deploy project to S3.
+destroy       destoys the database and django project. Be careful!
+dropdb        drops local database for project
+dumpdata      Dump the data of an app in json format
+grunt         Run grunt tasks installed from Yeoman generator
+grunt_build   Execute grunt build for any cleanup that
+gzip_assets   GZips every file in the assets directory and places the new file     in t...
+loaddata      load the data of an app in json format
+publish
+reset         delete all the deploy code
+rs            Start development server and grunt tasks. Optionally, specify port
+sh            Run Django extensions shell
+startapp      Create django app
+unbuild       shortcut for django bakery unbuild command
+```
 
 ## Notes
 - If you're creating a GeoDjango application on Heroku, you're going to need geo spatial libraries like GDAL and PostGIS. Luckily, CIR is here to help. Read more about our GeoDjango buildpack here: [cirlabs/heroku-buildpack-geodjango](https://github.com/cirlabs/heroku-buildpack-geodjango)

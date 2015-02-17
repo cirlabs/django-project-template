@@ -50,8 +50,7 @@ except AttributeError:
 @task
 def gzip_assets():
     """
-    GZips every file in the assets directory and places the new file
-    in the gzip directory with the same filename.
+    GZIP files in the static directory and places files in the gzip directory.
     """
     local("cd {0}; python ./lib/gzip_assets.py".format(pwd))
 
@@ -59,8 +58,7 @@ def gzip_assets():
 @task
 def grunt_build():
     """
-    Execute grunt build for any cleanup that
-    needs to happen before deploying to s3
+    Execute grunt build for any cleanup that needs to happen before deploying.
     """
     local('cd {{ project_name }} && grunt build')
 
@@ -179,8 +177,11 @@ def reset():
         rm -rf static && rm -rf gzip && rm -rf build')
 
 
-@task(default=True)
-def full_deploy():
+@task()
+def publish():
+    """
+    DEFAULT: Compress, build and deploy project to Amazon S3
+    """
     reset()
     compress()
     build()
