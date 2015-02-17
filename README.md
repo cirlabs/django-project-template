@@ -31,17 +31,17 @@ createdb      Creates local database for project
 deploy_to_s3  Deploy project to S3.
 destroy       destoys the database and django project. Be careful!
 dropdb        drops local database for project
-dumpdata      Dump the data of an app in json format
-grunt         Run grunt tasks installed from Yeoman generator
-grunt_build   Execute grunt build for any cleanup that
-gzip_assets   GZips every file in the assets directory and places the new file     in t...
+dumpdata      Dump data of an app in JSON format and store in the fixtures directory
+grunt_build   Execute grunt build for any cleanup that needs to happen before deploying.
+gzip_assets   GZIP files in the static directory and places files in the gzip directory.
 loaddata      load the data of an app in json format
-publish
+publish       Compress, build and deploy project to Amazon S3
 reset         delete all the deploy code
 rs            Start development server and grunt tasks. Optionally, specify port
 sh            Run Django extensions shell
 startapp      Create django app
 unbuild       shortcut for django bakery unbuild command
+
 ```
 
 ## Notes

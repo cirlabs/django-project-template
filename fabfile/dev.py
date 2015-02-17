@@ -57,9 +57,7 @@ def startapp(app_name=''):
     )
 
     log("\nHEADS UP! Make sure you add '{0}.apps.{1}' ".format(
-        project_name, app_name
-        )
-    )
+        project_name, app_name))
     log("to INSTALLED_APPS in settings/common.py")
 
 
