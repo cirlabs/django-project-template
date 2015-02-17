@@ -62,8 +62,11 @@ def startapp(app_name=''):
         )
     )
 
-    log("\nHEADS UP! Make sure you add '{0}.apps.{1}' to \
-        INSTALLED_APPS in settings/common.py\n".format(project_name, app_name))
+    log("\nHEADS UP! Make sure you add '{0}.apps.{1}' ".format(
+        project_name, app_name
+        )
+    )
+    log("to INSTALLED_APPS in settings/common.py")
 
 
 @task
@@ -102,6 +105,7 @@ def createdb():
     """
     Creates local database for project
     """
+    log("creating database")
     local('createdb {0}'.format(project_name))
 
     if settings.USE_POSTGIS:
@@ -133,8 +137,8 @@ def destroy():
     """
     destoys the database and django project. Be careful!
     """
-    log("You are about to mothball this entire project. \
-        Sure you want to do that? <enter 'Y' or 'N'>", "red")
+    log("You are about to mothball this entire project.\n", "red")
+    log("Sure you want to do that? <enter 'Y' or 'N'>", "red")
     while True:
         answer = raw_input("> ")
         if (answer.upper() == 'Y'):
