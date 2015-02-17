@@ -1,2 +1,2 @@
-from .deployment import *
-from .development import *
+from .dev import *
+from .deploy import *
