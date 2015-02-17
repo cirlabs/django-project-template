@@ -1,12 +1,16 @@
 import os
 import sys
 
-import boto
-from boto.s3.key import Key
-from fabric.api import task, local
-from fabric.contrib import django
+from lib.utils import log
 
-from .lib.utils import log
+try:
+    import boto
+    from boto.s3.key import Key
+except ImportError:
+    log("Remember to install boto before deploying", "red")
+
+from fabric.api import *
+from fabric.contrib import django
 
 django.settings_module("{{ project_name }}.settings")
 from django.conf import settings
@@ -29,13 +33,18 @@ gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
 static_path = '{0}/{1}/static/'.format(pwd, project_name)
 verbose_app_name = None  # what you want to call it when it goes live
 
-s3 = boto.connect_s3(
-    settings.AWS_ACCESS_KEY_ID,
-    settings.AWS_SECRET_ACCESS_KEY
-)
-s3_bucket = s3.get_bucket(AWS_BUCKET_NAME)
-s3_media_bucket = s3.get_bucket(AWS_MEDIA_BUCKET_NAME)
-s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
+try:
+    s3 = boto.connect_s3(
+        settings.AWS_ACCESS_KEY_ID,
+        settings.AWS_SECRET_ACCESS_KEY
+    )
+    s3_bucket = s3.get_bucket(AWS_BUCKET_NAME)
+    s3_media_bucket = s3.get_bucket(AWS_MEDIA_BUCKET_NAME)
+    s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
+
+except AttributeError:
+    log("Yo! Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to ", "red")
+    log("settings/local_settings.py before deploying\n", "red")
 
 
 @task
@@ -171,7 +180,7 @@ def reset():
 
 
 @task(default=True)
-def deploy():
+def full_deploy():
     reset()
     compress()
     build()

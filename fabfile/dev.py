@@ -1,10 +1,10 @@
+from lib.utils import log
+
 from fabric.api import local, task
 from fabric.contrib import django
 
 django.settings_module("{{ project_name }}.settings")
 from django.conf import settings
-
-from .lib.utils import log
 
 """
 Development Tasks
