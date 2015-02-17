@@ -11,5 +11,4 @@ install:
 script:
 - pep8 lib
 - pyflakes lib
-- pep8 fabfile
 - coverage run setup.py test
