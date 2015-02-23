@@ -178,12 +178,20 @@ def reset():
 
 
 @task()
-def publish():
+def publish(push_to_s3=True):
     """
-    DEFAULT: Compress, build and deploy project to Amazon S3
+    DEFAULT: Compress, build and deploy project to Amazon S3.
+    Optionally, pass False to skip publishing the assets to the
+    specified S3 bucket 
     """
+    should_we_publish = False if push_to_s3 == 'False' else push_to_s3
+
     reset()
     compress()
     build()
     settings.USE_GRUNT and grunt_build()
-    deploy_to_s3()
+    if should_we_publish:
+        log('Publishing ...')
+        deploy_to_s3
+    else:
+        log('Build is complete but no assets were published to AWs S3')
