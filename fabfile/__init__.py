@@ -1,5 +1,6 @@
 from .dev import *
 from .deploy import *
+from .build import *
 
 __all__ = (
     # Dev Tasks
@@ -13,6 +14,10 @@ __all__ = (
     'clear',
     'destroy',
     'bootstrap',
+    # Build Tasks
+    'bower',
+    'npm',
+    'scaffold',
     # Deploy Tasks
     'gzip_assets',
     'grunt_build',

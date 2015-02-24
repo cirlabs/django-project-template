@@ -2,6 +2,7 @@ import os
 import sys
 
 from lib.utils import log
+from .other import log_success
 
 try:
     import boto
@@ -19,6 +20,7 @@ from {{project_name}}.settings.production import (
     AWS_BUCKET_NAME,
     AWS_MEDIA_BUCKET_NAME,
     AWS_STAGING_BUCKET_NAME,
+    VERBOSE_APP_NAME,
     BUILD_DIR
 )
 
@@ -31,7 +33,6 @@ project_name = "{{ project_name }}"
 pwd = os.path.dirname(__file__)
 gzip_path = '{0}/{1}/gzip/static/'.format(pwd, project_name)
 static_path = '{0}/{1}/static/'.format(pwd, project_name)
-verbose_app_name = None  # what you want to call it when it goes live
 
 try:
     s3 = boto.connect_s3(
@@ -85,7 +86,7 @@ def deploy_to_s3():
     PART_SIZE = 6 * 1000 * 1000
 
     # paths
-    dest_dir = verbose_app_name if verbose_app_name else project_name
+    dest_dir = VERBOSE_APP_NAME if VERBOSE_APP_NAME else project_name
 
     app_directory = BUILD_DIR
 
@@ -111,7 +112,7 @@ def deploy_to_s3():
         dest_path = os.path.join(dest_dir, filename)
 
         log(
-            "  Uploading {0} to bucket {1}".format(
+            "\n  Uploading {0} to bucket {1}\n".format(
                 source_path, AWS_MEDIA_BUCKET_NAME
             )
         )
@@ -125,14 +126,14 @@ def deploy_to_s3():
             fp_num = 0
             while (fp.tell() < filesize):
                 fp_num += 1
-                log("      uploading part %i" % fp_num)
+                log("\n      uploading part %i" % fp_num)
                 mp.upload_part_from_file(
                     fp, fp_num, cb=percent_cb, num_cb=10, size=PART_SIZE)
 
                 mp.complete_upload()
 
         else:
-            log("    Running upload")
+            log("\n    Running upload\n")
             k = Key(s3_media_bucket)
             k.key = dest_path
             k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
@@ -147,6 +148,9 @@ def deploy_to_s3():
         k.key = dest_path
         k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
         k.make_public()
+
+    # Celebrate
+    log_success()
 
 
 @task
@@ -178,12 +182,20 @@ def reset():
 
 
 @task()
-def publish():
+def publish(dryrun):
     """
-    DEFAULT: Compress, build and deploy project to Amazon S3
+    DEFAULT: Compress, build and deploy project to Amazon S3.
+    Optionally, pass dryrun=False to skip publishing the assets to the
+    specified S3 bucket
     """
+    should_we_publish = False if dryrun == 'False' else dryrun
+
     reset()
     compress()
     build()
     settings.USE_GRUNT and grunt_build()
-    deploy_to_s3()
+    if should_we_publish:
+        log('\nPublishing ...\n')
+        deploy_to_s3
+    else:
+        log('\nBuild is complete but no assets were published to AWS S3\n')
