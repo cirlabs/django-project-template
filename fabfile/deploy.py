@@ -44,8 +44,8 @@ try:
     s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
 
 except AttributeError:
-    log("Yo! Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to ", "red")
-    log("settings/local_settings.py before deploying\n", "red")
+    log("Yo! Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to ")
+    log("settings/local_settings.py before deploying\n")
 
 
 @task
@@ -86,7 +86,7 @@ def deploy_to_s3():
     PART_SIZE = 6 * 1000 * 1000
 
     # paths
-    dest_dir = VERBOSE_APP_NAME if VERBOSE_APP_NAME else project_name
+    dest_dir = VERBOSE_APP_NAME
 
     app_directory = BUILD_DIR
 
@@ -182,13 +182,13 @@ def reset():
 
 
 @task()
-def publish(dryrun):
+def publish(dryrun=True):
     """
     DEFAULT: Compress, build and deploy project to Amazon S3.
     Optionally, pass dryrun=False to skip publishing the assets to the
     specified S3 bucket
     """
-    should_we_publish = False if dryrun == 'False' else dryrun
+    should_we_publish = False if dryrun == 'False' else True
 
     reset()
     compress()

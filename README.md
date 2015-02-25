@@ -8,6 +8,7 @@ Django Project Template is a collection of development tasks and optimizations a
 - Preconfigured deploy chain for baking projects flat with [Django Bakery](http://django-bakery.readthedocs.org/en/latest/)
 - [Boto](http://docs.pythonboto.org/en/latest/) configuration for easy deployment to [Amazon S3](https://aws.amazon.com/s3/)
 - Works with our custom built [yeoman generator](https://github.com/cirlabs/generator-newsapp) for even faster front-end scaffolding, development and optimization with [Grunt](http://gruntjs.com/) and [Bower](http://bower.io/)
+- `lib` directory with some of our favorite code snippets and custom Django mangement commands
 
 ## Minimum Requirements
 This project supports Ubuntu Linux 14.04 and Mac OS X Yosemite. It is not tested or supported for the Windows OS.
@@ -50,26 +51,27 @@ By default, this project assumes you'll be using PostGIS as your database. If yo
 ### Tasks
 Here are the various fabric tasks included in the project. See [fabfile.org](http://fabfile.org) to learn more about Fabric and Python task execution.
 
-```bash
-bootstrap     Run commands to setup a new project
-build         shortcut for django bakery build command
-clear         Remove a model from an application database
-compress      shortcut for django compressor offline compression command
-createdb      Creates local database for project
-deploy_to_s3  Deploy project to S3.
-destroy       destoys the database and django project. Be careful!
-dropdb        drops local database for project
-dumpdata      Dump data of an app in JSON format and store in the fixtures directory
-grunt_build   Execute grunt build for any cleanup that needs to happen before deploying.
-gzip_assets   GZIP files in the static directory and places files in the gzip directory.
-loaddata      load the data of an app in json format
-publish       Compress, build and deploy project to Amazon S3
-reset         delete all the deploy code
-rs            Start development server and grunt tasks. Optionally, specify port
-sh            Run Django extensions shell
-startapp      Create django app
-unbuild       shortcut for django bakery unbuild command
-
+```
+bootstrap       DEFAULT: Run commands to setup a new project
+bower           usage: fab bower:<command>, <args>, <option>
+clear           Remove a model from an application database
+compress        shortcut for django compressor offline compression command
+createdb        Creates local database for project
+deploy_to_s3    Deploy project to S3.
+destroy         destoys the database and django project. Be careful!
+dropdb          drops local database for project
+dumpdata        Dump data of an app in JSON format and store in the fixtures directory
+grunt_build     Execute grunt build for any cleanup that needs to happen before deployi...
+gzip_assets     GZIP files in the static directory and places files in the gzip directo...
+loaddata        load the data of an app in json format
+npm             usage: fab npm:<command>, <option>, <args>
+publish         DEFAULT: Compress, build and deploy project to Amazon S3.
+reset           delete all the deploy code
+rs              Start development server and grunt tasks. Optionally, specify port
+scaffold        Setup frontend management for Django project with yo, grunt and bower.
+sh              Run Django extensions shell
+startapp        Create django app
+unbuild         shortcut for django bakery unbuild command
 ```
 
 ### A note about GeoDjango deployment on Heroku

@@ -33,7 +33,7 @@ def sh():
 
 
 @task
-def startapp(app_name=''):
+def startapp(app_name):
     """
     Create django app
     """
@@ -62,7 +62,7 @@ def startapp(app_name=''):
 
 
 @task
-def dumpdata(app_name=''):
+def dumpdata(app_name):
     """
     Dump data of an app in JSON format and store in the fixtures directory
     """
@@ -81,7 +81,7 @@ def dumpdata(app_name=''):
 
 
 @task
-def loaddata(app_name=''):
+def loaddata(app_name):
     """
     load the data of an app in json format
     and store it in the fixtures directory
@@ -126,7 +126,7 @@ def dropdb():
 @task
 def clear(app_name, model_name):
     """
-    Remove a model from an application database
+    Remove a model table from an django application database
     """
     local("echo 'DROP TABLE {0}_{1};' | psql {{project_name}}".format(
         app_name, model_name
@@ -140,20 +140,17 @@ def destroy():
     destoys the database and django project. Be careful!
     """
     log("You are about to mothball this entire project.\n", "red")
-    log("Sure you want to do that? <enter 'Y' or 'N'>", "red")
-    while True:
-        answer = raw_input("> ")
-        if (answer.upper() == 'Y'):
-            dropdb()
-            local('cd .. && rm -rf {0}'.format(project_name))
-            break
+    log("Please type the project name to destroy it: ", "red")
+    log("'{{ project_name }}'\n")
 
-        elif (answer.upper() == 'N'):
-            log("cancelling destory")
-            break
+    answer = raw_input("> ")
+    if (answer == '{{ project_name }}'):
+        dropdb()
+        local('cd .. && rm -rf {0}'.format(project_name))
+        log("{{ project_name }} is no more. See you later!\n", "green")
 
-        else:
-            log("You didn't answer 'Y' or 'N'")
+    else:
+        log("You didn't type '{{ project_name }}' correctly. Exiting.")
 
 
 @task()
