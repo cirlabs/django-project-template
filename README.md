@@ -2,12 +2,12 @@
 
 Django Project Template is a collection of development tasks and optimizations aimed at anyone doing news application development on tight deadlines in Django. Highlights include:
 
+- Works with our custom built [Yeoman generator](https://github.com/cirlabs/generator-newsapp) for even faster front-end scaffolding, development and optimization with [Grunt](http://gruntjs.com/) and [Bower](http://bower.io/) (__recommended__)
 - [PostGIS](http://postgis.net/) setup for geospatial database work
 - [Fabric](http://www.fabfile.org/) tasks for development, building and deployment
 - Preconfigured with [Django Compressor](http://django-compressor.readthedocs.org/en/latest/) for CSS and JS preprocessing, concatenation and minification
 - Preconfigured deploy chain for baking projects flat with [Django Bakery](http://django-bakery.readthedocs.org/en/latest/)
 - [Boto](http://docs.pythonboto.org/en/latest/) configuration for easy deployment to [Amazon S3](https://aws.amazon.com/s3/)
-- Works with our custom built [yeoman generator](https://github.com/cirlabs/generator-newsapp) for even faster front-end scaffolding, development and optimization with [Grunt](http://gruntjs.com/) and [Bower](http://bower.io/)
 - `lib` directory with some of our favorite code snippets and custom Django mangement commands
 
 ## Minimum Requirements
@@ -17,7 +17,7 @@ This project supports Ubuntu Linux 14.04 and Mac OS X Yosemite. It is not tested
 - [PostgreSQL 9.3+](http://www.postgresql.org/)
 - [PostGIS 2.1+](http://postgis.net/)
 - [virtualenvwrapper](http://virtualenvwrapper.readthedocs.org/en/latest/)
-- *OPTIONAL:* [Node.js 0.12.x](http://nodejs.org/) or [io.js 1.2.x](https://iojs.org/en/index.html)
+- (optional) [Node.js 0.12.x](http://nodejs.org/) or [io.js 1.2.x](https://iojs.org/en/index.html)
 
 ## Quickstart
 ```bash
@@ -27,6 +27,11 @@ $ django-admin.py startproject --extension=py,.gitignore --template=https://gith
 $ cd project_name
 $ fab bootstrap # bootstrap project
 ```
+
+### Using Yeoman, Grunt and Bower (__recommended__)
+While this template works fine out the box, it's recommended you use use our yeoman generator to manage your static assets (HTML, CSS, JS). We built [generator-newsapp](https://github.com/cirlabs/generator-newsapp) to work in concert with this project template. For this to work you'll need [Node.js 0.12.x](http://nodejs.org/) or [io.js 1.2.x](https://iojs.org/).
+
+After running the quick start above run `fab scaffold` to install the required node.js libraries and generate the templates needed for frontend development.
 
 ## Deployment
 This project assumes you have an Amazon S3 bucket where you host your apps. They are static apps with no database calls.
@@ -39,11 +44,6 @@ With those files configured, run `fab deploy` to publish your application to the
 
 #### On Database-powered applications
 You can certainly use this template for dynamic applications, but currently there is no deployment chain.
-
-### Using Yeoman, Grunt and Bower (recommended)
-While this template works fine out the box, it's recommended you use use our yeoman generator to manage your static assets (HTML, CSS, JS). We built [generator-newsapp](https://github.com/cirlabs/generator-newsapp) to work in concert with this project template. For this to work you'll need [Node.js 0.12.x](http://nodejs.org/) or [io.js 1.2.x](https://iojs.org/).
-
-After running the quick start above run `fab scaffold` to install the required node.js libraries and generate the templates needed for frontend development.
 
 ### PostGIS
 By default, this project assumes you'll be using PostGIS as your database. If you'd prefer not to, you can set the `USE_POSTGIS` variable in `settings/common.py` to `False` and the project will default to PostgreSQL. :warning: Be sure to do this BEFORE running the quickstart.
