@@ -1,7 +1,7 @@
 from fabric.api import local, task
 
 @task
-def bower(command, args, option):
+def bower(command, args='', option=''):
     """
     usage: fab bower:<command>, <args>, <option>
 
@@ -17,9 +17,9 @@ def bower(command, args, option):
 
 
 @task
-def npm(command, args, option):
+def npm(command, args='', option=''):
     """
-    usage: fab npm:<command>, <option>, <args>
+    usage: fab npm:<command>, <args>, <option>
 
     Execute npm commands
 
