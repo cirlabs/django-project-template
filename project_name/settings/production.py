@@ -22,7 +22,7 @@ AWS_STAGING_BUCKET_NAME = 'apps-staging-cironline-org'
 AWS_BUCKET_NAME = 'apps-cironline-org'
 AWS_MEDIA_BUCKET_NAME = 'media-apps-cironline-org'
 
-VERBOSE_APP_NAME = None # App name in production. Defaults to project name
+VERBOSE_APP_NAME = '{{ project_name }}' # App name in production
 
 STATIC_URL = os.path.join(
     "//s3-us-west-1.amazonaws.com",

@@ -86,7 +86,7 @@ def deploy_to_s3():
     PART_SIZE = 6 * 1000 * 1000
 
     # paths
-    dest_dir = VERBOSE_APP_NAME if VERBOSE_APP_NAME else project_name
+    dest_dir = VERBOSE_APP_NAME
 
     app_directory = BUILD_DIR
 
