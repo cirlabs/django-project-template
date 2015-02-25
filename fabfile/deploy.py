@@ -182,13 +182,13 @@ def reset():
 
 
 @task()
-def publish(dryrun):
+def publish(dryrun=True):
     """
     DEFAULT: Compress, build and deploy project to Amazon S3.
     Optionally, pass dryrun=False to skip publishing the assets to the
     specified S3 bucket
     """
-    should_we_publish = False if dryrun == 'False' else dryrun
+    should_we_publish = False if dryrun == 'False' else True
 
     reset()
     compress()
