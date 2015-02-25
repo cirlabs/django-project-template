@@ -47,6 +47,12 @@ except AttributeError:
     log("Yo! Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to ")
     log("settings/local_settings.py before deploying\n")
 
+except NameError:
+    # `fab bootstrap` will fail because boto will not be defined when it runs
+    # therefore we catch the NameError here to make sure fabric can run
+    # when the project begins bootstrapping.
+    pass
+
 
 @task
 def gzip_assets():
