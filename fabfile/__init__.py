@@ -1,6 +1,6 @@
 from .dev import *
-from .deploy import *
 from .build import *
+from .deploy import *
 
 __all__ = (
     # Dev Tasks

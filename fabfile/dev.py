@@ -33,7 +33,7 @@ def sh():
 
 
 @task
-def startapp(app_name=''):
+def startapp(app_name):
     """
     Create django app
     """
@@ -62,7 +62,7 @@ def startapp(app_name=''):
 
 
 @task
-def dumpdata(app_name=''):
+def dumpdata(app_name):
     """
     Dump data of an app in JSON format and store in the fixtures directory
     """
@@ -81,7 +81,7 @@ def dumpdata(app_name=''):
 
 
 @task
-def loaddata(app_name=''):
+def loaddata(app_name):
     """
     load the data of an app in json format
     and store it in the fixtures directory
