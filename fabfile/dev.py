@@ -141,14 +141,13 @@ def destroy():
     """
     log("You are about to mothball this entire project.\n", "red")
     log("Please type the project name to destroy it: ", "red")
-    log("'{{ project_name }}'")
+    log("'{{ project_name }}'\n")
 
     answer = raw_input("> ")
     if (answer == '{{ project_name }}'):
         dropdb()
         local('cd .. && rm -rf {0}'.format(project_name))
-        log("Project has successfully been destroyed. See you later!", "green")
-        local('cd')
+        log("{{ project_name }} is no more. See you later!\n", "green")
 
     else:
         log("You didn't type '{{ project_name }}' correctly. Exiting.")

@@ -44,8 +44,8 @@ try:
     s3_staging_bucket = s3.get_bucket(AWS_STAGING_BUCKET_NAME)
 
 except AttributeError:
-    log("Yo! Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to ", "red")
-    log("settings/local_settings.py before deploying\n", "red")
+    log("Yo! Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to ")
+    log("settings/local_settings.py before deploying\n")
 
 
 @task
