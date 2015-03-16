@@ -48,9 +48,14 @@ except AttributeError:
     log("settings/local_settings.py before deploying\n")
 
 except NameError:
-    # `fab bootstrap` will fail because boto will not be defined when it runs
-    # therefore we catch the NameError here to make sure fabric can run
-    # when the project begins bootstrapping.
+    """
+    `fab bootstrap` will fail because boto will not be defined when it runs
+    therefore we catch the NameError here to make sure fabric can run
+    when the project begins bootstrapping.
+    """
+    pass
+    
+except IOError:
     pass
 
 
