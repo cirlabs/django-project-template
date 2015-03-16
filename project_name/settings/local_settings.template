@@ -1,6 +1,8 @@
 """
 Change this to local_settings.py
 """
+from common import *
+
 # Django Bakery S3 Key config
 
 AWS_ACCESS_KEY_ID = ''
