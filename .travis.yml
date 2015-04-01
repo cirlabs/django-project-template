@@ -10,5 +10,6 @@ install:
 - pip install -r requirements/base.txt
 script:
 - pep8 lib
+- pep8 fabfile
 - pyflakes lib
 - coverage run setup.py test

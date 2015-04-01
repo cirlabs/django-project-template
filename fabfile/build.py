@@ -1,5 +1,6 @@
 from fabric.api import local, task
 
+
 @task
 def bower(command, args='', option=''):
     """

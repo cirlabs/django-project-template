@@ -44,11 +44,12 @@ ART = """
     """
 
 SONGS = {
-  'baba-oreily': 'http://youtu.be/gY5rztWa1TM',
-  'this-is-how-we-do-it': 'http://youtu.be/0hiUuL5uTKc?t=8s',
-  'we-are-the-champions': 'http://youtu.be/qRlGFXl_e1E?t=35s',
-  'kanye-champion': 'http://youtu.be/vUv1U0lQ7TA'
+    'baba-oreily': 'http://youtu.be/gY5rztWa1TM',
+    'this-is-how-we-do-it': 'http://youtu.be/0hiUuL5uTKc?t=8s',
+    'we-are-the-champions': 'http://youtu.be/qRlGFXl_e1E?t=35s',
+    'kanye-champion': 'http://youtu.be/vUv1U0lQ7TA'
 }
+
 
 def log_success():
     """
