@@ -34,11 +34,15 @@ def npm(command, args='', option=''):
 
 
 @task
-def scaffold():
+def scaffold(skip_install=''):
     """
     Setup frontend management for Django project with yo, grunt and bower.
     See 'https://github.com/cirlabs/generator-newsapp' for more information.
+
+    Skip installing npm modules by running fab scaffold:skip-install
     """
-    npm('install', 'yo', '-g')
-    npm('install', 'generator-newsapp', '-g')
+    if skip_install != 'skip-install':
+        npm('install', 'yo', '-g')
+        npm('install', 'generator-newsapp', '-g')
+
     local('cd {{ project_name }} && yo newsapp')
