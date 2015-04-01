@@ -76,13 +76,9 @@ def grunt_build():
 
 
 @task
-def deploy_to_s3():
+def deploy_to_s3(bucket='staging'):
     """
-    Deploy project to S3.
-
-    Path options:
-    use `gzip_path` if gziping assets (default)
-    use `static_path` if not e.g.
+    Deploy `build` directory to specified S3 bucket. Defaults to 'staging'.
     """
     # See: https://gist.github.com/SavvyGuard/6115006
 
@@ -155,7 +151,14 @@ def deploy_to_s3():
         source_path = os.path.join(BUILD_DIR, filename)
         dest_path = os.path.join(dest_dir, filename)
 
-        k = Key(s3_staging_bucket)
+        if bucket == 'staging':
+            k = Key(s3_staging_bucket)
+        elif bucket == 'production':
+            k = Key(s3_bucket)
+        else:
+            log("Specify `staging` or `production`. Exiting ..", "red")
+            sys.exit()
+
         k.key = dest_path
         k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
         k.make_public()
@@ -192,14 +195,21 @@ def reset():
         rm -rf static && rm -rf gzip && rm -rf build')
 
 
+@task
+def invalidate_buildpath():
+    """Invalidate Cloudfront cache when pushed to production"""
+    raise NotImplementedError
+
+
 @task()
-def publish(dryrun=True):
+def publish(dryrun='False', bucket='staging'):
     """
-    DEFAULT: Compress, build and deploy project to Amazon S3.
-    Optionally, pass dryrun=False to skip publishing the assets to the
-    specified S3 bucket
+    usage: fab publish:dryrun=[False | True], bucket=['staging' | 'production']
+
+    DEFAULT: Compress, build and deploy project to staging bucket on Amazon S3.
+    pass dryrun=False to skip publishing the assets to the
     """
-    should_we_publish = False if dryrun == 'False' else True
+    should_we_publish = True if dryrun == 'False' else False
 
     reset()
     compress()
@@ -207,6 +217,6 @@ def publish(dryrun=True):
     settings.USE_GRUNT and grunt_build()
     if should_we_publish:
         log('\nPublishing ...\n')
-        deploy_to_s3()
+        deploy_to_s3(bucket)
     else:
         log('\nBuild is complete but no assets were published to AWS S3\n')
