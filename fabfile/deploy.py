@@ -54,7 +54,7 @@ except NameError:
     when the project begins bootstrapping.
     """
     pass
-    
+
 except IOError:
     pass
 
@@ -207,6 +207,6 @@ def publish(dryrun=True):
     settings.USE_GRUNT and grunt_build()
     if should_we_publish:
         log('\nPublishing ...\n')
-        deploy_to_s3
+        deploy_to_s3()
     else:
         log('\nBuild is complete but no assets were published to AWS S3\n')
