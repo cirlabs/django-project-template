@@ -33,6 +33,25 @@ def sh():
 
 
 @task
+def template(template_name='template.html'):
+    """
+    Generate a template that inherits from 'base.html'
+    Optionally pass template file name. Defaults to 'template.html'
+    """
+    template = """
+        {% extends 'base.html' %}
+        {% load staticfiles %}
+
+        {% block content %}
+        {% endblock %}
+    """
+    template_dir = os.path.join(settings.BASE_DIR, 'templates')
+    os.path.exists(template_dir) or os.mkdir(template_dir)
+
+    local("echo {} >> {}/{}".format(template, template_dir, template_name))
+
+
+@task
 def startapp(app_name):
     """
     Create django app
