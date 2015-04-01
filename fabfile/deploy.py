@@ -48,9 +48,14 @@ except AttributeError:
     log("settings/local_settings.py before deploying\n")
 
 except NameError:
-    # `fab bootstrap` will fail because boto will not be defined when it runs
-    # therefore we catch the NameError here to make sure fabric can run
-    # when the project begins bootstrapping.
+    """
+    `fab bootstrap` will fail because boto will not be defined when it runs
+    therefore we catch the NameError here to make sure fabric can run
+    when the project begins bootstrapping.
+    """
+    pass
+
+except IOError:
     pass
 
 
@@ -202,6 +207,6 @@ def publish(dryrun=True):
     settings.USE_GRUNT and grunt_build()
     if should_we_publish:
         log('\nPublishing ...\n')
-        deploy_to_s3
+        deploy_to_s3()
     else:
         log('\nBuild is complete but no assets were published to AWS S3\n')
