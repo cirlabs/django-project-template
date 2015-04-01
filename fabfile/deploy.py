@@ -200,14 +200,16 @@ def invalidate_buildpath():
     """Invalidate Cloudfront cache when pushed to production"""
     raise NotImplementedError
 
+
 @task()
-def publish(dryrun=True, bucket='staging'):
+def publish(dryrun='False', bucket='staging'):
     """
     usage: fab publish:dryrun=[False | True], bucket=['staging' | 'production']
 
     DEFAULT: Compress, build and deploy project to staging bucket on Amazon S3.
+    pass dryrun=False to skip publishing the assets to the
     """
-    should_we_publish = False if dryrun == 'False' else True
+    should_we_publish = True if dryrun == 'False' else False
 
     reset()
     compress()
