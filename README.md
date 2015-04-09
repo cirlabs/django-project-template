@@ -33,6 +33,8 @@ While this template works fine out the box, it's recommended you use use our yeo
 
 After running the quick start above run `fab scaffold` to install the required node.js libraries and generate the templates needed for frontend development.
 
+**Note**: If you already have the npm modules installed, you can skip installing them by running `fab scaffold:skip-install`.
+
 ## Deployment
 This project assumes you have an Amazon S3 bucket where you host your apps. They are static apps with no database calls.
 
