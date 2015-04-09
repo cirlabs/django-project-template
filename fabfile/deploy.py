@@ -163,8 +163,8 @@ def deploy_to_s3(bucket='staging'):
         k.set_contents_from_filename(source_path, cb=percent_cb, num_cb=10)
         k.make_public()
 
-    # Celebrate
-    log_success()
+    # Celebrate when pushed to production
+    log_success() if bucket == 'production' else ''
 
 
 @task
@@ -202,7 +202,7 @@ def invalidate_buildpath():
 
 
 @task()
-def publish(dryrun='False', bucket='staging'):
+def publish(bucket='staging', dryrun='False'):
     """
     usage: fab publish:dryrun=[False | True], bucket=['staging' | 'production']
 
