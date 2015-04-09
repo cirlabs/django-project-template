@@ -44,8 +44,8 @@ You'll also need to create a `settings/local_settings.py` file with your AWS sec
 
 With those files configured, run `fab deploy` to publish your application to the world.
 
-#### On Database-powered applications
-You can certainly use this template for dynamic applications, but currently there is no deployment chain pre-configured at this time.
+#### On database- and server-powered applications
+You can certainly use this template for dynamic applications that use a live server and a database, but currently there is no deployment chain pre-configured at this time.
 
 ### PostGIS
 By default, this project assumes you'll be using PostGIS as your database. If you'd prefer not to, you can set the `USE_POSTGIS` variable in `settings/common.py` to `False` and the project will default to PostgreSQL. :warning: Be sure to do this BEFORE running the quickstart.
