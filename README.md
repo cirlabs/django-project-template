@@ -1,3 +1,8 @@
+# This project has been deprecated and was archived July 2022.
+
+---
+
+
 # Django Project Template [![Build Status](https://secure.travis-ci.org/cirlabs/django-project-template.png?branch=master)](http://travis-ci.org/cirlabs/django-project-template) [![GitHub version](https://badge.fury.io/gh/cirlabs%2Fdjango-project-template.svg)](http://badge.fury.io/gh/cirlabs%2Fdjango-project-template)
 
 Django Project Template is a collection of development tasks and optimizations aimed at anyone doing news application development on tight deadlines in Django. Highlights include:
